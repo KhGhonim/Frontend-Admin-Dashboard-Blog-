@@ -24,3 +24,26 @@ html {
 .rotate-360 {
   transform: rotate(360deg);
 }
+
+.text-gradient {
+  background: linear-gradient(to right, #3b82f6, #ef4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes move {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-10px, -10px) rotate(-160deg);
+  }
+}
+
+.animate-move {
+  animation: move 1.5s infinite ease-in-out;
+}
+
+.rotate-45 {
+  transform: rotate(150deg);
+}

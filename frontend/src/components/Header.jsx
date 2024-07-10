@@ -1,10 +1,35 @@
 import { Link } from "react-router-dom";
 import { IoClose, IoMenu } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // eslint-disable-next-line react/prop-types
 export default function Header({ setDarkLightMode, DarkLightMode }) {
   const [IsMenuOpen, setIsMenuOpen] = useState(false);
+
+  const SignUpModelCloser = () => {
+    setIsMenuOpen(false);
+  };
+
+  const ref = useRef(null);
+  useEffect(() => {
+    // Event handler for clicking outside the SignUp modal
+    const HandleModelCloser = (eo) => {
+      // Check if the click is not inside the SignUp div
+      if (ref.current && !ref.current.contains(eo.target)) {
+        // Close the modal
+        SignUpModelCloser();
+      }
+    };
+
+    // Add the event listener for clicking outside the SignUp modal
+    document.addEventListener("mousedown", HandleModelCloser);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      document.removeEventListener("mousedown", HandleModelCloser);
+    };
+  }, []); // Empty dependency array ensures the effect runs only once
+
   // {Change Between True and False}
   const HandleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -35,7 +60,7 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
         <Link className="block text-teal-600" to="/">
           <span className="sr-only">Home</span>
           <h1 className="text-3xl">
-            <span className="text-teal-900 font-bold">KG</span>BLOG
+            <span className="text-teal-900 font-bold">KG</span>NEWS
           </h1>
         </Link>
 
@@ -100,8 +125,9 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
 
       {/* Mobile menu */}
       <div
+        ref={ref}
         className={`transition-transform duration-500 ease-in-out  ${
-          IsMenuOpen ? " translate-y-0 " : " translate-y-full opacity-0 "
+          IsMenuOpen ? " translate-y-0 " : " translate-y-[-1000%] opacity-100 "
         }absolute  z-10 w-full bg-[--background-color]  shadow-lg  md:hidden`}
       >
         <div className="flex flex-col gap-6 p-4">
@@ -118,7 +144,6 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
           >
             Register
           </Link>
-
         </div>
       </div>
     </header>

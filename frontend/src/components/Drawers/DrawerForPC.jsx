@@ -15,7 +15,7 @@ export default function DrawerForPC() {
     setBigScreensDrawerVisiability((prev) => !prev);
   };
   return (
-    <div className="fixed">
+    <div className="fixed z-50">
       {/* Large screens Drawer */}
       <div 
       onMouseEnter={HandleBigScreensDrawerVisiability}
@@ -24,7 +24,7 @@ export default function DrawerForPC() {
         <div
           className={`${
             BigScreensDrawerVisiability ? "translate-x-0" : "translate-x-[-1000%]"
-          } lg:flex fixed top-1/3 left-5 h-[400px] rounded-full w-20 bg-gray-100 p-4 shadow-lg flex-col items-center transition-all duration-500 ease-in-out`}
+          } lg:flex fixed  top-1/3 left-5 h-[400px] rounded-full w-20 bg-gray-100 p-4 border border-green-200 z-30 shadow-lg flex-col items-center transition-all duration-500 ease-in-out`}
         >
           <Tippy content="Home">
             <Link
