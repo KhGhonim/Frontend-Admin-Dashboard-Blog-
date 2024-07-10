@@ -1,14 +1,15 @@
 import { useState } from "react";
 import Header from "../src/components/Header";
 import { Outlet } from "react-router-dom";
-import Drawer from "../src/components/Drawer";
+import DrawerForMobiles from "./components/Drawers/DrawerForMobiles";
+import DrawerForPC from "./components/Drawers/DrawerForPC";
 
 function App() {
   const [DarkLightMode, setDarkLightMode] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
   );
   return (
-    <div className="min-h-screen text-[--text-color] ">
+    <div className="min-h-screen relative text-[--text-color] ">
       {DarkLightMode !== "light" ? (
         <div className="fixed top-0 z-[-2] h-full w-full bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
       ) : (
@@ -20,9 +21,9 @@ function App() {
         setDarkLightMode={setDarkLightMode}
         DarkLightMode={DarkLightMode}
       />
+      <DrawerForPC />
       <Outlet />
-
-      <Drawer />
+      <DrawerForMobiles />
     </div>
   );
 }
