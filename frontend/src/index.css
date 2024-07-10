@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --background-color: #f0f0f0;
+  --text-color: #1a1a1a;
+  --input-text-color: #1a1a1a;
+}
+
+.dark {
+  --background-color: #000;
+  --text-color: #fff;
+  --input-text-color: #1a1a1a;
+
+}
+
+
+
+.rotate-360 {
+  transform: rotate(360deg);
+}
