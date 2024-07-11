@@ -1,10 +1,51 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function SigIn() {
+  const [email, setemail] = useState(null);
+  const [password, setpassword] = useState(null);
+  const [loading, setloading] = useState(false);
+  const nevigate = useNavigate();
+
+  const HandleLogin = async (eo) => {
+    eo.preventDefault();
+    setloading(true);
+
+    const data = await fetch(`http://localhost:5000/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    const response = await data.json();
+
+    if (response.message === "Login successful") {
+      toast.success("Login successful");
+      setloading(false);
+      eo.target.reset();
+      nevigate("/");
+    } else if (response.message === "User does not exist") {
+      toast.error("User does not exist");
+      setloading(false);
+    } else if (response.message === "Invalid credentials") {
+      toast.error("Invalid credentials");
+      setloading(false);
+    }
+
+    setloading(false);
+    eo.target.reset();
+  };
+
   return (
     <div className="w-full h-screen flex flex-col justify-center mx-auto max-w-lg   p-12 space-y-4 text-center dark:bg-gray-50 dark:text-gray-800">
       <h1 className="text-3xl font-semibold mb-1">Sign in to your account</h1>
 
-      <form className="space-y-4">
+      <form onSubmit={HandleLogin} className="space-y-4">
         <div className="flex flex-col gap-6">
           <label htmlFor="email" className="sr-only">
             Email address
@@ -13,7 +54,9 @@ export default function SigIn() {
             id="email"
             type="email"
             placeholder="Email address"
-            className="w-full px-4 py-3 rounded-md outline-none text-[--text-color]"
+            className="w-full px-4 py-3 rounded-md outline-none text-black"
+            onChange={(e) => setemail(e.target.value)}
+            defaultValue={email}
           />
           <label htmlFor="password" className="sr-only">
             Password
@@ -22,31 +65,22 @@ export default function SigIn() {
             id="password"
             type="text"
             placeholder="Password"
-            className="w-full px-4 py-3 rounded-md outline-none text-[--text-color]"
+            className="w-full px-4 py-3 rounded-md outline-none text-black"
+            onChange={(e) => setpassword(e.target.value)}
+            defaultValue={password}
           />
         </div>
         <div className="flex justify-between">
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              name="remember"
-              id="remember"
-              aria-label="Remember me"
-              className="mr-1 rounded-sm focus:dark:ring-violet-600 focus:dark:border-violet-600 focus:ring-2 dark:accent-violet-600"
-            />
-            <label htmlFor="remember" className="text-sm dark:text-gray-600">
-              Remember me
-            </label>
-          </div>
-          <a className="text-sm dark:text-gray-600" href="/">
+          <a className="text-sm dark:text-gray-600" href="/ForgotPW">
             Forgot your password?
           </a>
         </div>
         <button
-          type="button"
+          type="submit"
+          disabled={loading}
           className="px-8 py-3 space-x-2 transition-colors duration-300 ease-in-out hover:bg-teal-800 font-semibold rounded bg-teal-700 text-white"
         >
-          Sign in
+          {loading ? "Loading..." : "Sign in"}
         </button>
       </form>
 
@@ -82,7 +116,7 @@ export default function SigIn() {
         Dont have an account?
         <a
           rel="noopener noreferrer"
-          href="#"
+          href="/auth/register"
           className="underline dark:text-gray-800"
         >
           Sign up

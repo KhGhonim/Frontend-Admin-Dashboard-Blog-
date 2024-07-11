@@ -3,10 +3,32 @@ const { Schema, models } = mongoose;
 
 const UserSchema = new Schema(
   {
-    name: String,
-    email: String,
-    password: String,
-    image: String,
+    email: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+
+    confirmPassword: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: false,
+    },
+
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -17,6 +17,7 @@ import Register from "../src/Pages/auth/Register.jsx";
 import Profile from "../src/Pages/Profile.jsx";
 import Search from "../src/Pages/Search.jsx";
 import PostCreation from "../src/Pages/PostCreation.jsx";
+import ForgotPW from "../src/Pages/ForgotPW.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
       <Route path="/auth/login" element={<SigIn />} />
       <Route path="/post/editor" element={<PostCreation />} />
       <Route path="/auth/register" element={<Register />} />
+      <Route path="/ForgotPW" element={<ForgotPW />} />
     </Route>
   )
 );
