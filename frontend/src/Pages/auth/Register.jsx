@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function Register() {
@@ -7,7 +8,7 @@ export default function Register() {
   const [password, setpassword] = useState(null);
   const [confirmPassword, setconfirmPassword] = useState(null);
   const [loading, setloading] = useState(false);
-
+  const navigate = useNavigate();
   const HandleRegister = async (eo) => {
     eo.preventDefault();
     setloading(true);
@@ -36,6 +37,7 @@ export default function Register() {
       toast.success("Register Successfull");
       setloading(false);
       eo.target.reset();
+      navigate("/auth/login");
     } else {
       toast.error(response.message);
       setloading(false);
@@ -61,8 +63,11 @@ export default function Register() {
             defaultValue={name}
             id="username"
             placeholder="Name"
-            onChange={(e) => setname(e.target.value)}
-            className="w-full px-4 py-3 rounded-md outline-none text-[--input-text-color]"
+            onChange={(eo) => {
+              let value = eo.target.value;
+              setname(value.toLowerCase());
+            }}
+            className="w-full px-4 py-3 rounded-md outline-none text-black"
           />
         </div>
         <div className="space-y-1 text-sm">
@@ -74,9 +79,12 @@ export default function Register() {
             type="email"
             name="Email"
             id="Email"
-            onChange={(e) => setemail(e.target.value)}
+            onChange={(eo) => {
+              let value = eo.target.value;
+              setemail(value.toLowerCase());
+            }}
             placeholder="Email"
-            className="w-full px-4 py-3 rounded-md outline-none text-[--input-text-color]"
+            className="w-full px-4 py-3 rounded-md outline-none  text-black"
           />
         </div>
         <div className="space-y-1 text-sm">
@@ -88,9 +96,12 @@ export default function Register() {
             name="password"
             defaultValue={password}
             id="password"
-            onChange={(e) => setpassword(e.target.value)}
+            onChange={(eo) => {
+              let value = eo.target.value;
+              setpassword(value.toLowerCase());
+            }}
             placeholder="Password"
-            className="w-full px-4 py-3 rounded-md outline-none text-[--text-color]"
+            className="w-full px-4 py-3 rounded-md outline-none  text-black"
           />
         </div>
 
@@ -103,9 +114,12 @@ export default function Register() {
             name="confirmPassword"
             defaultValue={confirmPassword}
             id="confirmPassword"
-            onChange={(e) => setconfirmPassword(e.target.value)}
+            onChange={(eo) => {
+              let value = eo.target.value;
+              setconfirmPassword(value.toLowerCase());
+            }}
             placeholder="Confirm your Password"
-            className="w-full px-4 py-3 rounded-md outline-none text-[--text-color]"
+            className="w-full px-4 py-3 rounded-md outline-none  text-black"
           />
         </div>
         <button

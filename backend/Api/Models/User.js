@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 const { Schema, models } = mongoose;
 
-const UserSchema = new Schema(
+// User Schema
+const userSchema = new Schema(
   {
     email: {
       type: String,
@@ -20,10 +21,6 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    image: {
-      type: String,
-      required: false,
-    },
 
     isAdmin: {
       type: Boolean,
@@ -34,7 +31,7 @@ const UserSchema = new Schema(
     timestamps: true,
   }
 );
-// Create a model based on that schema, and change the name of the model to match your liking.
-const UserModel = models.User || mongoose.model("User", UserSchema);
+
+const UserModel = models.User || mongoose.model("User", userSchema);
 
 export default UserModel;

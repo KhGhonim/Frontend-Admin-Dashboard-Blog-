@@ -55,7 +55,10 @@ export default function SigIn() {
             type="email"
             placeholder="Email address"
             className="w-full px-4 py-3 rounded-md outline-none text-black"
-            onChange={(e) => setemail(e.target.value)}
+            onChange={(eo) => {
+              let value = eo.target.value;
+              setemail(value.toLowerCase());
+            }}
             defaultValue={email}
           />
           <label htmlFor="password" className="sr-only">
@@ -66,7 +69,10 @@ export default function SigIn() {
             type="text"
             placeholder="Password"
             className="w-full px-4 py-3 rounded-md outline-none text-black"
-            onChange={(e) => setpassword(e.target.value)}
+            onChange={(eo) => {
+              let value = eo.target.value;
+              setpassword(value.toLowerCase());
+            }}
             defaultValue={password}
           />
         </div>
