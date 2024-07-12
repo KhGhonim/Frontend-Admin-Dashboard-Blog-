@@ -4,8 +4,6 @@ import { Outlet } from "react-router-dom";
 import DrawerForMobiles from "./components/Drawers/DrawerForMobiles";
 import DrawerForPC from "./components/Drawers/DrawerForPC";
 import Footer from "../src/components/Footer";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from "react-toastify";
 
 function App() {
   const [DarkLightMode, setDarkLightMode] = useState(
@@ -27,8 +25,7 @@ function App() {
       <DrawerForPC />
       <Outlet />
       <DrawerForMobiles />
-      <Footer/>
-      <ToastContainer />
+      <Footer />
     </div>
   );
 }
