@@ -6,24 +6,30 @@ import { Link } from "react-router-dom";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // Optional for default styling
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function DrawerForPC() {
   const [BigScreensDrawerVisiability, setBigScreensDrawerVisiability] =
     useState(false);
+  // @ts-ignore
+  const { currentUser } = useSelector((state) => state.user);
 
   const HandleBigScreensDrawerVisiability = () => {
     setBigScreensDrawerVisiability((prev) => !prev);
   };
-  return (
+  return currentUser ? (
     <div className="fixed z-50">
       {/* Large screens Drawer */}
-      <div 
-      onMouseEnter={HandleBigScreensDrawerVisiability}
-      onMouseLeave={HandleBigScreensDrawerVisiability}
-      className="hidden md:flex w-32 h-screen ">
+      <div
+        onMouseEnter={HandleBigScreensDrawerVisiability}
+        onMouseLeave={HandleBigScreensDrawerVisiability}
+        className="hidden md:flex w-32 h-screen "
+      >
         <div
           className={`${
-            BigScreensDrawerVisiability ? "translate-x-0" : "translate-x-[-1000%]"
+            BigScreensDrawerVisiability
+              ? "translate-x-0"
+              : "translate-x-[-1000%]"
           } md:flex fixed  top-1/3 left-5 h-[400px] rounded-full w-20 bg-gray-100 p-4 border border-green-200 z-30 shadow-lg flex-col items-center transition-all duration-500 ease-in-out`}
         >
           <Tippy content="Home">
@@ -91,8 +97,6 @@ export default function DrawerForPC() {
           </Tippy>
         </div>
       </div>
-
-
     </div>
-  );
+  ) : null;
 }

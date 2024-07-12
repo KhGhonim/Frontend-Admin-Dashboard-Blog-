@@ -1,15 +1,21 @@
 import { Link } from "react-router-dom";
-import { IoClose, IoMenu } from "react-icons/io5";
+import { IoSettings } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signoutSuccess } from "../Redux/userSlice";
+import { CgLogOut, CgProfile } from "react-icons/cg";
 
 // eslint-disable-next-line react/prop-types
 export default function Header({ setDarkLightMode, DarkLightMode }) {
+  // @ts-ignore
+  const { currentUser } = useSelector((state) => state.user);
   const [IsMenuOpen, setIsMenuOpen] = useState(false);
-
+  const dispatch = useDispatch();
   const SignUpModelCloser = () => {
     setIsMenuOpen(false);
   };
 
+  // {Change Between True and False}
   const ref = useRef(null);
   useEffect(() => {
     // Event handler for clicking outside the SignUp modal
@@ -69,21 +75,93 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
 
           <div className="flex items-center gap-4">
             {/* Login and Register buttons */}
-            <div className="sm:flex sm:gap-4">
-              <Link
-                className="hidden rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700 sm:block"
-                to="/auth/login"
-              >
-                Login
-              </Link>
+            {!currentUser ? (
+              <div className="sm:flex sm:gap-4">
+                <Link
+                  className="hidden rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700 sm:block"
+                  to="/auth/login"
+                >
+                  Login
+                </Link>
 
-              <Link
-                className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
-                to="/auth/register"
-              >
-                Register
-              </Link>
+                <Link
+                  className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
+                  to="/auth/register"
+                >
+                  Register
+                </Link>
+              </div>
+            ) : (
+              <div className="sm:flex sm:gap-4">
+                {/* <Link
+                  className="hidden rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700 sm:block"
+                  to="/auth/login"
+                  onClick={() => {
+                    dispatch(signoutSuccess());
+                  }}
+                >
+                  Log Out
+                </Link> */}
+
+                {/* <div className="sm:flex sm:gap-4 relative">
+                  <img src="" alt="" className="w-8 h-8 rounded-full m-1" />
+
+            <div
+             className="flex flex-col gap-1 absolute top-10 right-0  bg-[--background-color] text-[--text-color] p-7 rounded-xl">
+            <h3 className="text-[--text-color] flex justify-center items-center gap-3 ">Welcome! {currentUser?.user.name} <FaUser/></h3>
+            <h3 className="text-[--text-color]">{currentUser?.user.email}</h3>
             </div>
+
+                </div> */}
+
+                <div
+                  onClick={HandleMenu}
+                  className="relative inline-block text-left cursor-pointer"
+                >
+                  <div className="flex items-center space-x-3">
+                    <span className="capitalize">{currentUser?.user.name}</span>
+                    <img
+                      className="w-10 h-10 rounded-full"
+                      src="https://placehold.co/40x40"
+                      alt="User profile picture"
+                    />
+                  </div>
+                  <div
+                    ref={ref}
+                    className={` ${
+                      IsMenuOpen ? "block" : "hidden"
+                    } absolute border z-30 border-gray-50 p-2 right-0 mt-2 w-48  rounded-md shadow-lg bg-[--background-color] text-[--text-color] font-medium`}
+                  >
+                    <div className="py-1">
+                      <Link
+                        to={`/Profile/update/${currentUser?.user._id}`}
+                        className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-teal-700 duration-300 transition-all ease-linear rounded-lg"
+                      >
+                        Settings
+                        <IoSettings size={20} className="ml-auto" />
+                      </Link>
+                      <Link
+                        to="/Profile"
+                        className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-teal-700 duration-300 transition-all ease-linear rounded-lg"
+                      >
+                        Profile
+                        <CgProfile size={20} className="ml-auto" />
+                      </Link>
+                      <Link
+                        onClick={() => {
+                          dispatch(signoutSuccess());
+                        }}
+                        to="/auth/login"
+                        className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-teal-700 duration-300 transition-all ease-linear rounded-lg "
+                      >
+                        Logout
+                        <CgLogOut size={20} className="ml-auto" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Dark mode toggle */}
             <div>
@@ -106,7 +184,7 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
             </div>
 
             {/* Menu button */}
-            <button
+            {/* <button
               onClick={HandleMenu}
               className="block rounded   p-2.5 md:hidden"
             >
@@ -118,34 +196,36 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
               >
                 {IsMenuOpen ? <IoClose size={24} /> : <IoMenu size={24} />}
               </span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
 
       {/* Mobile menu */}
-      <div
+      {/* <div
         ref={ref}
         className={`transition-transform duration-500 ease-in-out  ${
           IsMenuOpen ? " translate-y-0 " : " translate-y-[-1000%] opacity-100 "
         }absolute  z-10 w-full bg-[--background-color]  shadow-lg  md:hidden`}
       >
-        <div className="flex flex-col gap-6 p-4">
-          <Link
-            className="block rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition-all duration-300 ease-in hover:bg-teal-600 hover:text-gray-100"
-            to="/auth/login"
-          >
-            Login
-          </Link>
+        {currentUser ? null : (
+          <div className="flex flex-col gap-6 p-4">
+            <Link
+              className="block rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition-all duration-300 ease-in hover:bg-teal-600 hover:text-gray-100"
+              to="/auth/login"
+            >
+              Login
+            </Link>
 
-          <Link
-            className="block rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition-all duration-300 ease-in hover:bg-teal-600 hover:text-gray-100"
-            to="/auth/register"
-          >
-            Register
-          </Link>
-        </div>
-      </div>
+            <Link
+              className="block rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition-all duration-300 ease-in hover:bg-teal-600 hover:text-gray-100"
+              to="/auth/register"
+            >
+              Register
+            </Link>
+          </div>
+        )}
+      </div> */}
     </header>
   );
 }

@@ -29,7 +29,6 @@ export default function SigIn() {
       credentials: "include",
     });
     const data = await res.json();
-    console.log(data);
 
     if (data.message === "User does not exist") {
       dispatch(signInFailure(data.message));
