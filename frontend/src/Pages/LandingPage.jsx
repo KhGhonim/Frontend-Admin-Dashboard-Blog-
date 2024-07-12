@@ -11,10 +11,10 @@ export default function LandingPage() {
   return (
     <div className="w-full md:h-screen  flex flex-col relative">
 
-      <section className="flex-1 flex  items-center justify-center text-center p-8">
-        <div className="w-full md:w-1/2 ">
+      <section className="flex-1 flex max-sm:flex-col  items-center justify-center text-center p-8">
+        <div className="w-full md:w-1/2 max-md:mb-4 ">
           <h2 className="text-4xl font-bold mb-4">
-            Welcome to My KG<span className="text-red-500">NEWS</span>
+            Welcome to My KGNEWS<span className="text-red-500 px-2">Blog Panel</span>
           </h2>
           <p className="text-lg text-muted-foreground mb-6">
             Insights, scoops, and stories from the world or{" "}
@@ -30,9 +30,9 @@ export default function LandingPage() {
           </Link>
         </div>
 
-        <div className="hidden md:block relative w-1/2">
-          <img src={LandingPageHero} alt="LandingPageHero" />
-          <div className="absolute top-0 left-0 animate-bounce">
+        <div className="block relative w-1/2 max-sm:w-full max-sm:justify-center max-sm:items-center">
+          <img src={LandingPageHero} alt="LandingPageHero"  className="w-full h-full max-sm:h-96 object-cover"/>
+          <div className="hidden lg:flex absolute top-0 left-0 animate-bounce">
             <img src={PerformanceOfTheHero} alt="" />
           </div>
         </div>

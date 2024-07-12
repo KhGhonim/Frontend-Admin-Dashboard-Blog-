@@ -8,7 +8,7 @@ import "tippy.js/dist/tippy.css"; // Optional for default styling
 export default function DrawerForMobiles() {
   
   return (
-    <div className="hidden max-sm:flex absolute bottom-10 left-0 right-0 w-80  mx-auto rounded-full  justify-center items-center bg-gray-100 p-4 shadow-lg">
+    <div className="hidden max-sm:flex absolute bottom-20 left-0 right-0 w-80  mx-auto rounded-full  justify-center items-center bg-gray-100 p-4 shadow-lg">
       <div className="relative flex justify-between items-center w-full max-w-md">
         <Tippy content="Home">
           <Link

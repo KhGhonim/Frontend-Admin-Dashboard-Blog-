@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./Api/Routes/authRoutes.js";
 import MongoDB from "./Config/MongoDB.js";
-
-
+import cookieParser from "cookie-parser";
+import JWTverifier from "./Api/Helpers/JWTverifier.js";
 const app = express();
 const port = 5000;
 
@@ -11,13 +11,15 @@ const port = 5000;
 app.use(
   cors({
     origin: "http://localhost:5173",
+    credentials: true,
   })
 );
+
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/login", authRoutes);
 
 // Connection
 const startServer = async () => {
@@ -28,3 +30,5 @@ const startServer = async () => {
 };
 
 startServer();
+
+

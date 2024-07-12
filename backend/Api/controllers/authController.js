@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import MongoDB from "../../Config/MongoDB.js";
 import UserModel from "../Models/User.js";
-
+import jwt from "jsonwebtoken";
 export const registerUser = async (req, res) => {
   try {
     const objfromFrontend = req.body;
@@ -56,10 +56,19 @@ export const loginUser = async (req, res) => {
       user.password
     );
     if (!isMatch) {
-      return res.status(400).send({ message: "Invalid credentials" });
+      return res.status(400).send({ message: "Invalid password" });
     }
-    res.send({ message: "Login successful" });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    res.cookie("token", token, {
+      httpOnly: true,
+    });
+
+    res.status(200).send({ message: "Login successful" });
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
+

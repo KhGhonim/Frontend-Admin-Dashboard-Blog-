@@ -21,6 +21,8 @@ export default function SigIn() {
         email,
         password,
       }),
+      credentials: 'include' 
+
     });
     const response = await data.json();
 
