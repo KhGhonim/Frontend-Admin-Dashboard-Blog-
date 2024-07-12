@@ -1,18 +1,23 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from "../../Redux/userSlice";
 export default function SigIn() {
   const [email, setemail] = useState(null);
   const [password, setpassword] = useState(null);
-  const [loading, setloading] = useState(false);
   const nevigate = useNavigate();
-
+  // @ts-ignore
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const HandleLogin = async (eo) => {
     eo.preventDefault();
-    setloading(true);
+    dispatch(signInStart());
 
-    const data = await fetch(`http://localhost:5000/api/auth/login`, {
+    const res = await fetch(`http://localhost:5000/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,25 +26,33 @@ export default function SigIn() {
         email,
         password,
       }),
-      credentials: 'include' 
-
+      credentials: "include",
     });
-    const response = await data.json();
+    const data = await res.json();
+    console.log(data);
 
-    if (response.message === "Login successful") {
-      toast.success("Login successful");
-      setloading(false);
-      eo.target.reset();
-      nevigate("/");
-    } else if (response.message === "User does not exist") {
-      toast.error("User does not exist");
-      setloading(false);
-    } else if (response.message === "Invalid credentials") {
-      toast.error("Invalid credentials");
-      setloading(false);
+    if (data.message === "User does not exist") {
+      dispatch(signInFailure(data.message));
     }
 
-    setloading(false);
+    if (res.ok) {
+      dispatch(signInSuccess(data));
+      nevigate("/");
+    }
+
+    // if (response.message === "Login successful") {
+    //   toast.success("Login successful");
+    //   setloading(false);
+    //   eo.target.reset();
+    //   nevigate("/");
+    // } else if (response.message === "User does not exist") {
+    //   toast.error("User does not exist");
+    //   setloading(false);
+    // } else if (response.message === "Invalid credentials") {
+    //   toast.error("Invalid credentials");
+    //   setloading(false);
+    // }
+
     eo.target.reset();
   };
 
@@ -82,6 +95,11 @@ export default function SigIn() {
           <a className="text-sm dark:text-gray-600" href="/ForgotPW">
             Forgot your password?
           </a>
+          <div>
+            {errorMessage ? (
+              <p className="text-red-500 text-sm">{errorMessage}</p>
+            ) : null}
+          </div>
         </div>
         <button
           type="submit"

@@ -20,11 +20,11 @@ export default function DrawerForPC() {
       <div 
       onMouseEnter={HandleBigScreensDrawerVisiability}
       onMouseLeave={HandleBigScreensDrawerVisiability}
-      className="hidden lg:flex w-32 h-screen ">
+      className="hidden md:flex w-32 h-screen ">
         <div
           className={`${
             BigScreensDrawerVisiability ? "translate-x-0" : "translate-x-[-1000%]"
-          } lg:flex fixed  top-1/3 left-5 h-[400px] rounded-full w-20 bg-gray-100 p-4 border border-green-200 z-30 shadow-lg flex-col items-center transition-all duration-500 ease-in-out`}
+          } md:flex fixed  top-1/3 left-5 h-[400px] rounded-full w-20 bg-gray-100 p-4 border border-green-200 z-30 shadow-lg flex-col items-center transition-all duration-500 ease-in-out`}
         >
           <Tippy content="Home">
             <Link

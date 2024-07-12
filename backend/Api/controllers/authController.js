@@ -66,9 +66,8 @@ export const loginUser = async (req, res) => {
       httpOnly: true,
     });
 
-    res.status(200).send({ message: "Login successful" });
+    res.status(200).send({ user });
   } catch (error) {
     res.status(500).send(error.message);
   }
 };
-
