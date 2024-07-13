@@ -6,6 +6,7 @@ import {
   signInStart,
   signInSuccess,
 } from "../../Redux/userSlice";
+import GoogleAuth from "./GoogleAuth";
 export default function SigIn() {
   const [email, setemail] = useState(null);
   const [password, setpassword] = useState(null);
@@ -107,6 +108,7 @@ export default function SigIn() {
         >
           {loading ? "Loading..." : "Sign in"}
         </button>
+        <GoogleAuth/>
       </form>
 
       {/* Social Login */}

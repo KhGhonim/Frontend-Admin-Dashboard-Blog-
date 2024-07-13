@@ -1,4 +1,9 @@
+import { useSelector } from "react-redux";
+
 export default function Profile() {
+  // @ts-ignore
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
     <div className="absolute inset-0 -z-10 ">
       <img
@@ -12,12 +17,12 @@ export default function Profile() {
           <div className="flex justify-center -mt-16">
             <img
               className="w-32 h-32 rounded-full border-4 object-cover border-white"
-              src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSwQ1wr4ptQIAu8Ur2YA5dQISL3aQCGnDUYkxfAht66exHfF5hd"
-              alt="Profile picture"
+              src={currentUser?.profilePicture}
+              alt={currentUser?.name}
             />
           </div>
           <div className="text-center mt-2">
-            <h2 className="text-2xl font-semibold ">Jenna Stones</h2>
+            <h2 className="text-2xl font-semibold capitalize ">{currentUser?.name}</h2>
             <p className="font-light">Los Angeles, California</p>
             <div className="mt-2">
               <p className="font-medium">

@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
 import authRoutes from "./Api/Routes/authRoutes.js";
+import userRoutes from "./Api/Routes/userRoutes.js";
 import MongoDB from "./Config/MongoDB.js";
 import cookieParser from "cookie-parser";
-import JWTverifier from "./Api/Helpers/JWTverifier.js";
 const app = express();
 const port = 5000;
 
@@ -20,6 +20,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api", userRoutes);
 
 // Connection
 const startServer = async () => {

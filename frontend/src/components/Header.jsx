@@ -59,6 +59,25 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
     setDarkLightMode((data) => (data === "dark" ? "light" : "dark"));
   };
 
+  const HandleSignOut = async () => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/auth/signout`, {
+        method: "POST",
+
+        credentials: "include",
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      error.message = "Failed to sign out";
+    }
+  };
+
   return (
     <header className="bg-[--background-color] shadow-lg rounded-b-xl">
       <div className=" flex h-16 max-w-screen-3xl items-center gap-8 px-4 sm:px-6 lg:px-8">
@@ -119,10 +138,10 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
                   className="relative inline-block text-left cursor-pointer"
                 >
                   <div className="flex items-center space-x-3">
-                    <span className="capitalize">{currentUser?.user.name}</span>
+                    <span className="capitalize">{currentUser.name}</span>
                     <img
                       className="w-10 h-10 rounded-full"
-                      src="https://placehold.co/40x40"
+                      src={currentUser?.profilePicture}
                       alt="User profile picture"
                     />
                   </div>
@@ -134,7 +153,7 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
                   >
                     <div className="py-1">
                       <Link
-                        to={`/Profile/update/${currentUser?.user._id}`}
+                        to={`/Profile/update/${currentUser?._id}`}
                         className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-teal-700 duration-300 transition-all ease-linear rounded-lg"
                       >
                         Settings
@@ -147,16 +166,16 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
                         Profile
                         <CgProfile size={20} className="ml-auto" />
                       </Link>
-                      <Link
+                      <div
                         onClick={() => {
                           dispatch(signoutSuccess());
+                          HandleSignOut();
                         }}
-                        to="/auth/login"
-                        className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-teal-700 duration-300 transition-all ease-linear rounded-lg "
+                        className="flex items-center px-4 py-2 text-sm  hover:bg-teal-700 duration-300 transition-all ease-linear rounded-lg cursor-pointer"
                       >
                         Logout
                         <CgLogOut size={20} className="ml-auto" />
-                      </Link>
+                      </div>
                     </div>
                   </div>
                 </div>

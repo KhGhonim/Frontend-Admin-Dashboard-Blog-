@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import GoogleAuth from "./GoogleAuth";
 
 export default function Register() {
   const [name, setname] = useState(null);
@@ -129,6 +130,7 @@ export default function Register() {
         >
           {loading ? "Loading..." : "Sign Up"}
         </button>
+        <GoogleAuth/>
       </form>
 
       {/* Social Login */}
