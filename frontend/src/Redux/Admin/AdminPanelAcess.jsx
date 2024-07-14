@@ -8,15 +8,23 @@ export default function AdminPanelAcess() {
   const [notification, setNotification] = useState("");
 
   useEffect(() => {
-    if (!currentUser || currentUser.isAdmin || currentUser.user.isAdmin  === false) {
+    if (
+      !currentUser ||
+      currentUser.isAdmin ||
+      currentUser.user.isAdmin === false
+    ) {
       setNotification("Access denied: You are not an admin.");
     }
-    
   }, [currentUser, currentUser.isAdmin]);
 
+  console.log(
+    (currentUser && currentUser.isAdmin) ||
+      (currentUser && currentUser.user.isAdmin)
+  );
   return (
     <div>
-      {currentUser && currentUser.isAdmin || currentUser.user.isAdmin ? (
+      {(currentUser && currentUser.isAdmin) ||
+      (currentUser && currentUser.user.isAdmin) ? (
         <Outlet />
       ) : (
         <div className="flex justify-center items-center h-96">

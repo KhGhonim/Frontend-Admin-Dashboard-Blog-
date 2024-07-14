@@ -26,6 +26,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import ProfileUpdate from "../src/Pages/Profile/ProfileUpdate.jsx";
 // @ts-ignore
 import { persistor, store } from "./Redux/store.js";
+import Posts from "../src/Pages/Posts.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -47,6 +48,7 @@ const router = createBrowserRouter(
       {/* AdminRoutes */}
       <Route element={<AdminPanelAcess />}>
         <Route path="/post/editor" element={<PostCreation />} />
+        <Route path="/Posts" element={<Posts />} />
         <Route path="/post/update/:postId" element={<PostUpdate />} />
       </Route>
     </Route>

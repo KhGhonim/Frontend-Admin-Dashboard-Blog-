@@ -1,6 +1,6 @@
 import { IoAdd, IoHome } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
+import { CgEye, CgProfile } from "react-icons/cg";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import Tippy from "@tippyjs/react";
@@ -75,6 +75,20 @@ export default function DrawerForPC() {
             >
               <button>
                 <FaSearch
+                  className="text-teal-600 hover:text-teal-800"
+                  size={24}
+                />
+              </button>
+            </Link>
+          </Tippy>
+
+          <Tippy content="See Posts">
+            <Link
+              className="mb-6 flex-1 flex justify-center items-center"
+              to={"/Posts"}
+            >
+              <button>
+                <CgEye
                   className="text-teal-600 hover:text-teal-800"
                   size={24}
                 />

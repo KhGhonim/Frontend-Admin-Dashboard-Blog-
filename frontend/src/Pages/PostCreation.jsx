@@ -1,8 +1,9 @@
 import {
   getDownloadURL,
   getStorage,
+  ref,
   uploadBytesResumable,
-} from "firebase/storage";
+} from 'firebase/storage';
 import { app } from "../FirebaseConfig/FirebaseConfig";
 import { useEffect, useRef, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,8 +15,6 @@ import { Link } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 
 export default function PostCreation() {
-  // @ts-ignore
-
   const [PostFormData, setPostFormData] = useState({});
   const [Image, setImage] = useState(null);
   const [ImageUrl, setImageUrl] = useState(null);
@@ -44,7 +43,6 @@ export default function PostCreation() {
     // Generate a unique file name for the image
     const fileName = new Date().getTime() + Image.name;
     const storageRef = ref(storage, fileName);
-
     // Start the upload process
     const uploadTask = uploadBytesResumable(storageRef, Image);
 
@@ -147,12 +145,12 @@ export default function PostCreation() {
     setPostState(false);
   };
 
-  const ref = useRef(null);
+  const PostPublishModalref = useRef(null);
   useEffect(() => {
     // Event handler for clicking outside the SignUp modal
     const HandleModelCloser = (eo) => {
       // Check if the click is not inside the SignUp div
-      if (ref.current && !ref.current.contains(eo.target)) {
+      if (PostPublishModalref.current && !PostPublishModalref.current.contains(eo.target)) {
         // Close the modal
         PostPublishModalHandler();
       }
@@ -343,8 +341,8 @@ export default function PostCreation() {
         } fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50`}
       >
         <div
-          ref={ref}
-          className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full"
+          ref={PostPublishModalref}
+          className="bg-white text-black rounded-lg shadow-lg p-6 max-w-sm w-full"
         >
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold bg">
