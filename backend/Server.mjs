@@ -4,6 +4,7 @@ import authRoutes from "./Api/Routes/authRoutes.js";
 import userRoutes from "./Api/Routes/userRoutes.js";
 import MongoDB from "./Config/MongoDB.js";
 import cookieParser from "cookie-parser";
+import postRoutes from "./Api/Routes/postRoutes.js";
 const app = express();
 const port = 5000;
 
@@ -21,6 +22,8 @@ app.use(cookieParser());
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api/post", postRoutes);
+
 
 // Connection
 const startServer = async () => {

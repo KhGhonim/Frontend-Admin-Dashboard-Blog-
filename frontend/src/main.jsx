@@ -19,9 +19,8 @@ import Search from "../src/Pages/Search.jsx";
 import PostCreation from "../src/Pages/PostCreation.jsx";
 import ForgotPW from "../src/Pages/ForgotPW.jsx";
 import { Provider } from "react-redux";
-
 import CurrentUserState from "../src/Redux/CurrentUserState/CurrentUserState.jsx";
-import PostUpadte from "../src/Pages/PostUpadte.jsx";
+import PostUpdate from "../src/Pages/PostUpadte.jsx";
 import AdminPanelAcess from "../src/Redux/Admin/AdminPanelAcess.jsx";
 import { PersistGate } from "redux-persist/integration/react";
 import ProfileUpdate from "../src/Pages/Profile/ProfileUpdate.jsx";
@@ -43,11 +42,12 @@ const router = createBrowserRouter(
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/Profile/update/:userId" element={<ProfileUpdate />} />
         <Route path="/profile" element={<Profile />} />
-
       </Route>
+
+      {/* AdminRoutes */}
       <Route element={<AdminPanelAcess />}>
         <Route path="/post/editor" element={<PostCreation />} />
-        <Route path="/post/update/:postId" element={<PostUpadte />} />
+        <Route path="/post/update/:postId" element={<PostUpdate />} />
       </Route>
     </Route>
   )

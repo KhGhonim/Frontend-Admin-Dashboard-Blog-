@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -38,9 +38,16 @@ export default function SigIn() {
       nevigate("/");
     }
 
-
     eo.target.reset();
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (errorMessage) {
+        dispatch(signInFailure(null));
+      }
+    }, 3000);
+  }, [errorMessage]);
 
   return (
     <div className="w-full h-screen flex flex-col justify-center mx-auto max-w-lg   p-12 space-y-4 text-center dark:bg-gray-50 dark:text-gray-800">
