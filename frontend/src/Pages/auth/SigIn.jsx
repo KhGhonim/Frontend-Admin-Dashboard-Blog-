@@ -31,27 +31,13 @@ export default function SigIn() {
     });
     const data = await res.json();
 
-    if (data.message === "User does not exist") {
+    if (!res.ok) {
       dispatch(signInFailure(data.message));
-    }
-
-    if (res.ok) {
+    } else {
       dispatch(signInSuccess(data));
       nevigate("/");
     }
 
-    // if (response.message === "Login successful") {
-    //   toast.success("Login successful");
-    //   setloading(false);
-    //   eo.target.reset();
-    //   nevigate("/");
-    // } else if (response.message === "User does not exist") {
-    //   toast.error("User does not exist");
-    //   setloading(false);
-    // } else if (response.message === "Invalid credentials") {
-    //   toast.error("Invalid credentials");
-    //   setloading(false);
-    // }
 
     eo.target.reset();
   };
@@ -108,7 +94,7 @@ export default function SigIn() {
         >
           {loading ? "Loading..." : "Sign in"}
         </button>
-        <GoogleAuth/>
+        <GoogleAuth />
       </form>
 
       {/* Social Login */}

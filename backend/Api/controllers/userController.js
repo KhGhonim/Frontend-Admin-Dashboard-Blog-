@@ -54,6 +54,23 @@ export const updateUser = async (req, res, next) => {
 
 export const getUsers = async () => {};
 
-
-
-export const deleteUser = (params) => {};
+export const deleteUser = async (req, res, next) => {
+  if (req.user.id !== req.params.userId) {
+    return next(res.status(403).json("You can delete only your account!"));
+  }
+  try {
+    await UserModel.findByIdAndDelete(req.params.userId)
+      .then((user) => {
+        if (user) {
+          res.status(200).json({ message: "User deleted successfully" });
+        } else {
+          res.status(404).json({ message: "User not found" });
+        }
+      })
+      .catch((error) => {
+        res.status(500).json({ message: "Error deleting user" });
+      });
+  } catch (error) {
+    console.log(error.message);
+  }
+};

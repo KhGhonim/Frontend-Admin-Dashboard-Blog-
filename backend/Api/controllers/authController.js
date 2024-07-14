@@ -60,9 +60,13 @@ export const loginUser = async (req, res) => {
       return res.status(400).send({ message: "Invalid password" });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
     res.cookie("token", token, {
       httpOnly: true,
     });
@@ -80,9 +84,13 @@ export const Google = async (req, res, next) => {
     const user = await UserModel.findOne({ email });
 
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-      });
+      const token = jwt.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1h",
+        }
+      );
       res.cookie("token", token, {
         httpOnly: true,
       });
@@ -121,7 +129,6 @@ export const Google = async (req, res, next) => {
     res.status(500).send({ error: "Internal Server Error" });
   }
 };
-
 
 export const signout = (req, res, next) => {
   try {

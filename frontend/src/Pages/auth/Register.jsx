@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import GoogleAuth from "./GoogleAuth";
+import { useDispatch } from "react-redux";
+import { signUpFailure } from "../../Redux/userSlice";
 
 export default function Register() {
   const [name, setname] = useState(null);
@@ -9,18 +10,19 @@ export default function Register() {
   const [password, setpassword] = useState(null);
   const [confirmPassword, setconfirmPassword] = useState(null);
   const [loading, setloading] = useState(false);
+  const [SignUPerror, setSignUPerror] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const HandleRegister = async (eo) => {
     eo.preventDefault();
     setloading(true);
 
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
-      setloading(false);
+      dispatch(signUpFailure("Passwords do not match"));
       return;
     }
 
-    const data = await fetch(`http://localhost:5000/api/auth/register`, {
+    const res = await fetch(`http://localhost:5000/api/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,20 +34,16 @@ export default function Register() {
         confirmPassword,
       }),
     });
-    const response = await data.json();
+    const data = await res.json();
 
-    if (response.message === "User created successfully") {
-      toast.success("Register Successfull");
-      setloading(false);
-      eo.target.reset();
-      navigate("/auth/login");
+    if (!res.ok) {
+      dispatch(signUpFailure(data.message));
+
+      setSignUPerror(data.message);
     } else {
-      toast.error(response.message);
-      setloading(false);
-      eo.target.reset();
+      navigate("/auth/login");
     }
 
-    setloading(false);
     eo.target.reset();
   };
   return (
@@ -130,7 +128,14 @@ export default function Register() {
         >
           {loading ? "Loading..." : "Sign Up"}
         </button>
-        <GoogleAuth/>
+        <div className="flex flex-col items-center text-center ">
+          {SignUPerror && (
+            <p className="text-red-500 capitalize w-screen p-3 ">
+              Somthing wrong happened while registering the user
+            </p>
+          )}
+        </div>
+        <GoogleAuth />
       </form>
 
       {/* Social Login */}

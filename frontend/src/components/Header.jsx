@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoSettings } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
   const { currentUser } = useSelector((state) => state.user);
   const [IsMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const SignUpModelCloser = () => {
     setIsMenuOpen(false);
   };
@@ -72,10 +73,12 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
         console.log(data.message);
       } else {
         dispatch(signoutSuccess());
+        navigate("/");
       }
     } catch (error) {
       error.message = "Failed to sign out";
     }
+    navigate("/");
   };
 
   return (
@@ -138,10 +141,15 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
                   className="relative inline-block text-left cursor-pointer"
                 >
                   <div className="flex items-center space-x-3">
-                    <span className="capitalize">{currentUser.name}</span>
+                    <span className="capitalize">
+                      {currentUser.name || currentUser?.user?.name}
+                    </span>
                     <img
-                      className="w-10 h-10 rounded-full"
-                      src={currentUser?.profilePicture}
+                      className="w-10 h-10 rounded-full object-cover"
+                      src={
+                        currentUser?.profilePicture ||
+                        currentUser?.user?.profilePicture
+                      }
                       alt="User profile picture"
                     />
                   </div>
@@ -153,14 +161,18 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
                   >
                     <div className="py-1">
                       <Link
-                        to={`/Profile/update/${currentUser?._id}`}
+                        to={`/Profile/update/${
+                          currentUser?._id || currentUser?.user?._id
+                        }`}
                         className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-teal-700 duration-300 transition-all ease-linear rounded-lg"
                       >
                         Settings
                         <IoSettings size={20} className="ml-auto" />
                       </Link>
                       <Link
-                        to="/Profile"
+                        to={`/Profile/${
+                          currentUser?._id || currentUser?.user?._id
+                        }`}
                         className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-teal-700 duration-300 transition-all ease-linear rounded-lg"
                       >
                         Profile

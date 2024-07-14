@@ -30,6 +30,9 @@ export default function ProfileUpdate() {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [error, seterror] = useState(null);
   const [formData, setFormData] = useState({});
+  const [UpdateUserSuccess, setUpdateUserSuccess] = useState(null);
+  const [updateUserError, setUpdateUserError] = useState(null);
+
   const dispatch = useDispatch();
   // When the user clicks on the image it will open the file explorer to select an image from their device and store it in the state
   const ImagePicker = (eo) => {
@@ -39,7 +42,14 @@ export default function ProfileUpdate() {
       setImage(file);
     }
   };
-
+  useEffect(() => {
+    setTimeout(() => {
+      if (UpdateUserSuccess || error || userError) {
+        setUpdateUserSuccess(null);
+        seterror(null);
+      }
+    }, 3000);
+  }, [UpdateUserSuccess, error, userError]);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -107,12 +117,24 @@ export default function ProfileUpdate() {
   const handleSubmit = async (eo) => {
     eo.preventDefault();
     // Send a POST request to the server to update the user's profile
+    setUpdateUserError(null);
+    setUpdateUserSuccess(null);
+
+    if (Object.keys(formData).length === 0) {
+      return;
+    }
+    if (imageFileUploading) {
+      setUpdateUserError('Please wait for image to upload');
+      return;
+    }
 
     try {
       dispatch(updateStart());
 
       const res = await fetch(
-        `http://localhost:5000/api/update/${currentUser._id}`,
+        `http://localhost:5000/api/update/${
+          currentUser._id || currentUser.user._id
+        }`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -127,6 +149,7 @@ export default function ProfileUpdate() {
         seterror(data);
       } else {
         dispatch(updateSuccess(data));
+        setUpdateUserSuccess(data.message);
       }
     } catch (error) {
       dispatch(updateFailure(error.message));
@@ -180,8 +203,12 @@ export default function ProfileUpdate() {
               imageFileUploadProgress < 100 &&
               "opacity-60"
             } `}
-            src={ImageUrl || currentUser?.profilePicture}
-            alt={currentUser?.name}
+            src={
+              ImageUrl ||
+              currentUser?.profilePicture ||
+              currentUser.user.profilePicture
+            }
+            alt={currentUser?.name || currentUser.user.name}
           />
         </div>
 
@@ -194,7 +221,7 @@ export default function ProfileUpdate() {
           <input
             type="text"
             id="name"
-            defaultValue={currentUser?.name}
+            defaultValue={currentUser?.name || currentUser?.user?.name}
             placeholder="Name"
             onChange={handleChange}
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 "
@@ -202,7 +229,7 @@ export default function ProfileUpdate() {
         </div>
         <div className="w-full mb-4">
           <input
-            defaultValue={currentUser?.email}
+            defaultValue={currentUser?.email || currentUser?.user?.email}
             type="email"
             id="email"
             placeholder="Email"
@@ -227,12 +254,27 @@ export default function ProfileUpdate() {
           {loading ? "Updating..." : "Update"}
         </button>
       </form>
-      {userError && <p className="text-red-500">{userError}</p>}
-      {error && (
-        <p className="text-gray-50 w-full p-3 bg-red-500 text-center capitalize">
-          {error}
-        </p>
-      )}
+      <div className="flex flex-col items-center text-center ">
+        {UpdateUserSuccess && (
+          <p className="text-green-500 capitalize w-screen p-3 ">
+            {UpdateUserSuccess}
+          </p>
+        )}
+        {userError && (
+          <p className="text-red-500 capitalize w-screen p-3 ">{userError}</p>
+        )}
+        {error && (
+          <p className=" bg-red-500 capitalize w-screen p-3 text-gray-50">
+            {error}
+          </p>
+        )}
+
+        {updateUserError && (
+          <p className="bg-red-500 capitalize w-screen p-3 text-gray-50">
+            {updateUserError}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
