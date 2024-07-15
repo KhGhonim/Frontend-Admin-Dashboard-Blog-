@@ -16,6 +16,10 @@ app.use(
   })
 );
 
+app.get("/", async (req, res) => {
+  res.send("Hello World!");
+});
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -23,8 +27,6 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api/post", postRoutes);
-
-
 
 // Connection
 const startServer = async () => {

@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -12,7 +11,6 @@ import {
 import Dashboard from "../src/Pages/Dashboard.jsx";
 import LandingPage from "../src/Pages/LandingPage.jsx";
 import SigIn from "../src/Pages/auth/SigIn.jsx";
-// @ts-ignore
 import Register from "../src/Pages/auth/Register.jsx";
 import Profile from "./Pages/Profile/Profile.jsx";
 import Search from "../src/Pages/Search.jsx";
@@ -24,7 +22,6 @@ import PostUpdate from "../src/Pages/PostUpadte.jsx";
 import AdminPanelAcess from "../src/Redux/Admin/AdminPanelAcess.jsx";
 import { PersistGate } from "redux-persist/integration/react";
 import ProfileUpdate from "../src/Pages/Profile/ProfileUpdate.jsx";
-// @ts-ignore
 import { persistor, store } from "./Redux/store.js";
 import Posts from "../src/Pages/Posts.jsx";
 import Users from "../src/Pages/Users.jsx";
