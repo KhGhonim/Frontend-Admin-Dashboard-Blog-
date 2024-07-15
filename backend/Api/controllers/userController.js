@@ -55,7 +55,7 @@ export const updateUser = async (req, res, next) => {
 export const getUsers = async () => {};
 
 export const deleteUser = async (req, res, next) => {
-  if (req.user.id !== req.params.userId) {
+  if ( !req.user.isAdmin || req.user.id !== req.params.userId) {
     return next(res.status(403).json("You can delete only your account!"));
   }
   try {

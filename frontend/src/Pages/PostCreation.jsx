@@ -3,7 +3,7 @@ import {
   getStorage,
   ref,
   uploadBytesResumable,
-} from 'firebase/storage';
+} from "firebase/storage";
 import { app } from "../FirebaseConfig/FirebaseConfig";
 import { useEffect, useRef, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -150,7 +150,10 @@ export default function PostCreation() {
     // Event handler for clicking outside the SignUp modal
     const HandleModelCloser = (eo) => {
       // Check if the click is not inside the SignUp div
-      if (PostPublishModalref.current && !PostPublishModalref.current.contains(eo.target)) {
+      if (
+        PostPublishModalref.current &&
+        !PostPublishModalref.current.contains(eo.target)
+      ) {
         // Close the modal
         PostPublishModalHandler();
       }

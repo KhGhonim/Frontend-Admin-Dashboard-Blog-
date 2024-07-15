@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 export default function Posts() {
   const [PostsData, setPostsData] = useState(null);
   const [PostId, setPostId] = useState(null);
+  const [TotalPostsInDashboard, setTotalPostsInDashboard] = useState(6);
+  // {Change Between True and False}
+  const HandleShowMore = () => {
+    setTotalPostsInDashboard((prev) => prev + 4);
+  };
   useEffect(() => {
     const getPosts = async () => {
       const res = await fetch(`http://localhost:5000/api/post/allposts`, {
@@ -148,7 +153,7 @@ export default function Posts() {
             </th>
           </tr>
         </thead>
-        {PostsData.map((post, index) => {
+        {PostsData.slice(0, TotalPostsInDashboard).map((post, index) => {
           const day = moment(post.createdAt).date();
           const month = moment(post.createdAt).format("MMMM");
           const year = moment(post.createdAt).year();
@@ -206,6 +211,12 @@ export default function Posts() {
           );
         })}
       </table>
+
+      {TotalPostsInDashboard < PostsData.length && (
+        <div onClick={HandleShowMore} className="flex justify-center w-full bg-teal-500 p-2 px-2 cursor-pointer">
+          <button>Load More Posts</button>
+        </div>
+      )}
     </div>
   );
 }
