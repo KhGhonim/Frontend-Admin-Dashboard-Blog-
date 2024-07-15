@@ -199,7 +199,6 @@ export default function PostUpadte() {
     };
   }, []); //
 
-  console.log(PostFormData);
   return (
     <div className="min-h-screen  p-6 pb-3 relative">
       <div className="max-w-4xl mx-auto  p-6 rounded-lg shadow-xl mb-10">

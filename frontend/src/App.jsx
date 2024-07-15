@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import DrawerForMobiles from "./components/Drawers/DrawerForMobiles";
 import DrawerForPC from "./components/Drawers/DrawerForPC";
 import Footer from "../src/components/Footer";
+import CookieAdminModal from "../src/components/CookieAdminModal";
 
 function App() {
   const [DarkLightMode, setDarkLightMode] = useState(
@@ -24,6 +25,7 @@ function App() {
       />
       <DrawerForPC />
       <Outlet />
+      <CookieAdminModal/>
       <DrawerForMobiles />
       <Footer />
     </div>

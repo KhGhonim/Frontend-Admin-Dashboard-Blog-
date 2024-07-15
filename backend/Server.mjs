@@ -25,6 +25,7 @@ app.use("/api", userRoutes);
 app.use("/api/post", postRoutes);
 
 
+
 // Connection
 const startServer = async () => {
   await MongoDB();

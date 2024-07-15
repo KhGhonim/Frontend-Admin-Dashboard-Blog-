@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoogleAuth from "./GoogleAuth";
-import { useDispatch } from "react-redux";
-import { signUpFailure } from "../../Redux/userSlice";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function Register() {
   const [name, setname] = useState(null);
   const [email, setemail] = useState(null);
@@ -12,13 +11,13 @@ export default function Register() {
   const [loading, setloading] = useState(false);
   const [SignUPerror, setSignUPerror] = useState(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const HandleRegister = async (eo) => {
     eo.preventDefault();
     setloading(true);
 
     if (password !== confirmPassword) {
-      dispatch(signUpFailure("Passwords do not match"));
+      toast.error("Passwords do not match");
+      setloading(false);
       return;
     }
 
@@ -37,8 +36,8 @@ export default function Register() {
     const data = await res.json();
 
     if (!res.ok) {
-      dispatch(signUpFailure(data.message));
-
+      toast.error(data.message);
+      setloading(false);
       setSignUPerror(data.message);
     } else {
       navigate("/auth/login");
@@ -167,6 +166,7 @@ export default function Register() {
           Log In
         </a>
       </p>
+      <ToastContainer />
     </div>
   );
 }

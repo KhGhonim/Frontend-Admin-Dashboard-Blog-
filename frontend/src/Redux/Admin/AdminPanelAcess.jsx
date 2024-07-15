@@ -10,17 +10,14 @@ export default function AdminPanelAcess() {
   useEffect(() => {
     if (
       !currentUser ||
-      currentUser.isAdmin ||
+      currentUser.isAdmin === false ||
       currentUser.user.isAdmin === false
     ) {
       setNotification("Access denied: You are not an admin.");
     }
   }, [currentUser, currentUser.isAdmin]);
 
-  console.log(
-    (currentUser && currentUser.isAdmin) ||
-      (currentUser && currentUser.user.isAdmin)
-  );
+
   return (
     <div>
       {(currentUser && currentUser.isAdmin) ||

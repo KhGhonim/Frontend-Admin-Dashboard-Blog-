@@ -1,6 +1,6 @@
 import { IoAdd, IoHome } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
-import { CgEye, CgProfile } from "react-icons/cg";
+import { CgEye, CgProfile, CgUserList } from "react-icons/cg";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import Tippy from "@tippyjs/react";
@@ -58,12 +58,26 @@ export default function DrawerForPC() {
               </button>
             </Link>
           </Tippy>
+
+          <Tippy content="Users">
+            <Link
+              className="mb-6 flex-1 flex justify-center items-center"
+              to={"/users"}
+            >
+              <button>
+                <CgUserList
+                  className="text-teal-600 hover:text-teal-800"
+                  size={24}
+                />
+              </button>
+            </Link>
+          </Tippy>
           <Tippy content="Create Post">
             <Link
               className="relative mb-6 flex-1 flex justify-center items-center"
               to={"/post/editor"}
             >
-              <button className="absolute left-1/2 transform -translate-x-1/2 bg-red-500 transition-all duration-300 ease-in-out hover:bg-red-700 text-white rounded-full p-4 shadow-lg">
+              <button className="absolute left-1/2 transform -translate-x-1/2 bg-red-500 transition-all duration-300 ease-in-out hover:bg-red-700 text-white rounded-full p-3 shadow-lg">
                 <IoAdd color="white" size={24} />
               </button>
             </Link>

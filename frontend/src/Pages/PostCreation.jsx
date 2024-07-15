@@ -33,8 +33,6 @@ export default function PostCreation() {
       setImage(file);
     }
   };
-  console.log(PostFormData);
-
   // This function handles the upload of the image to the Firebase storage
   const UploadImageHandler = () => {
     // Get the Firebase storage reference
