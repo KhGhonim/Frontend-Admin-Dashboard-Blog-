@@ -14,11 +14,16 @@ export default function Posts() {
 
   useEffect(() => {
     const getPosts = async () => {
+      const token = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('token='))
+      ?.split('=')[1]; // Retrieve token from cookies
+
       const res = await fetch(`${apiUrl}/api/post/allposts`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          credentials: "include",
+        "Authorization": `Bearer ${token}`, // Include token in Authorization header
         },
       });
       const data = await res.json();
