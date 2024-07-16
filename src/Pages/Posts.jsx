@@ -11,6 +11,7 @@ export default function Posts() {
     setTotalPostsInDashboard((prev) => prev + 4);
   };
   const apiUrl = import.meta.env.VITE_API_URL
+  
   useEffect(() => {
     const getPosts = async () => {
       const res = await fetch(`${apiUrl}/api/post/allposts`, {

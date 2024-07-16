@@ -59,10 +59,10 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
   const DarkLightModeHandler = () => {
     setDarkLightMode((data) => (data === "dark" ? "light" : "dark"));
   };
-
+  const apiUrl = import.meta.env.VITE_API_URL;
   const HandleSignOut = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/auth/signout`, {
+      const res = await fetch(`${apiUrl}/api/auth/signout`, {
         method: "POST",
 
         credentials: "include",
