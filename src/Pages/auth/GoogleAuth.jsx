@@ -14,6 +14,8 @@ export default function GoogleAuth() {
   const auth = getAuth(app);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL
+
   const location = useLocation().pathname;
   const HandleGoogleAuth = async (eo) => {
     eo.preventDefault();
@@ -25,7 +27,7 @@ export default function GoogleAuth() {
       const resultsFromGoogle = await signInWithPopup(auth, provider);
       const { displayName, email, photoURL } = resultsFromGoogle.user;
 
-      const res = await fetch("http://localhost:5000/api/auth/google", {
+      const res = await fetch(`${apiUrl}/api/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

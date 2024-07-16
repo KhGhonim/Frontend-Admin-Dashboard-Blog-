@@ -10,9 +10,10 @@ export default function Posts() {
   const HandleShowMore = () => {
     setTotalPostsInDashboard((prev) => prev + 4);
   };
+  const apiUrl = import.meta.env.VITE_API_URL
   useEffect(() => {
     const getPosts = async () => {
-      const res = await fetch(`http://localhost:5000/api/post/allposts`, {
+      const res = await fetch(`${apiUrl}/api/post/allposts`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +38,7 @@ export default function Posts() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/post/deletepost/${PostId}`,
+        `${apiUrl}/api/post/deletepost/${PostId}`,
         {
           method: "DELETE",
           headers: {

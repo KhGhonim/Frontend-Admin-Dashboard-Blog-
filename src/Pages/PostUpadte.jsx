@@ -27,12 +27,14 @@ export default function PostUpadte() {
   const ImageInputRef = useRef(null);
   let { postId } = useParams();
   const nevigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL
+
   useEffect(() => {
     if (postId) {
       try {
         const FetchOnePost = async () => {
           const res = await fetch(
-            `http://localhost:5000/api/post/getPost/${postId}`,
+            `${apiUrl}/api/post/getPost/${postId}`,
             {
               method: "GET",
               headers: {
@@ -135,7 +137,7 @@ export default function PostUpadte() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/post/updatepost/${postId}`,
+        `${apiUrl}/api/post/updatepost/${postId}`,
         {
           method: "PUT",
           headers: {

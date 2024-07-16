@@ -11,6 +11,8 @@ export default function Register() {
   const [loading, setloading] = useState(false);
   const [SignUPerror, setSignUPerror] = useState(null);
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL
+
   const HandleRegister = async (eo) => {
     eo.preventDefault();
     setloading(true);
@@ -21,7 +23,7 @@ export default function Register() {
       return;
     }
 
-    const res = await fetch(`http://localhost:5000/api/auth/register`, {
+    const res = await fetch(`${apiUrl}/api/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

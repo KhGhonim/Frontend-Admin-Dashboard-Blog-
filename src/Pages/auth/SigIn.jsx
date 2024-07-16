@@ -14,11 +14,14 @@ export default function SigIn() {
   // @ts-ignore
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const apiUrl = import.meta.env.VITE_API_URL
+
   const HandleLogin = async (eo) => {
     eo.preventDefault();
     dispatch(signInStart());
 
-    const res = await fetch(`http://localhost:5000/api/auth/login`, {
+    const res = await fetch(`${apiUrl}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -16,6 +16,8 @@ export default function Profile() {
   const closeModalHandler = () => {
     setcloseModal((prev) => !prev);
   };
+  const apiUrl = import.meta.env.VITE_API_URL
+
   const dispatch = useDispatch();
   const HandleUserDelete = async (eo) => {
     eo.preventDefault();
@@ -24,7 +26,7 @@ export default function Profile() {
       dispatch(deleteUserStart());
 
       const res = await fetch(
-        `http://localhost:5000/api/delete/${
+        `${apiUrl}/api/delete/${
           currentUser?._id || currentUser?.user._id
         }`,
         {

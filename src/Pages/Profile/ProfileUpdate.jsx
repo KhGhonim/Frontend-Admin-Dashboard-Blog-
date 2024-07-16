@@ -32,6 +32,7 @@ export default function ProfileUpdate() {
   const [formData, setFormData] = useState({});
   const [UpdateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
+  const apiUrl = import.meta.env.VITE_API_URL
 
   const dispatch = useDispatch();
   // When the user clicks on the image it will open the file explorer to select an image from their device and store it in the state
@@ -132,7 +133,7 @@ export default function ProfileUpdate() {
       dispatch(updateStart());
 
       const res = await fetch(
-        `http://localhost:5000/api/update/${
+        `${apiUrl}/api/update/${
           currentUser._id || currentUser.user._id
         }`,
         {

@@ -8,6 +8,7 @@ import HandoftheHero from "../assets/Saly-37.svg";
 import PerformanceOfTheHero from "../assets/Saly-26.svg";
 
 export default function LandingPage() {
+
   return (
     <div className="w-full md:h-screen  flex flex-col relative">
 

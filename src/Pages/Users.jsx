@@ -13,9 +13,11 @@ export default function Users() {
   const HandleShowMore = () => {
     setTotalPostsInDashboard((prev) => prev + 4);
   };
+  const apiUrl = import.meta.env.VITE_API_URL
+
   useEffect(() => {
     const getUsers = async () => {
-      const res = await fetch(`http://localhost:5000/api/AllUsers`, {
+      const res = await fetch(`${apiUrl}/api/AllUsers`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +40,7 @@ export default function Users() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/Admin/deleteuser/${UserId}`,
+        `${apiUrl}/api/Admin/deleteuser/${UserId}`,
         {
           method: "DELETE",
           headers: {
@@ -63,7 +65,7 @@ export default function Users() {
   
   const AdminStatusHandler = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/Admin/${UserId}`, {
+      const res = await fetch(`${apiUrl}/api/Admin/${UserId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
