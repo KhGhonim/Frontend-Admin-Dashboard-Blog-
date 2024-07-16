@@ -109,9 +109,10 @@ export default function PostCreation() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          credentials: "include",
+
         },
         body: JSON.stringify(PostFormData),
-        credentials: "include",
       });
       const data = await res.json();
       console.log(data);

@@ -39,8 +39,9 @@ export default function PostUpadte() {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
+                credentials: "include",
+
               },
-              credentials: "include",
             }
           );
 

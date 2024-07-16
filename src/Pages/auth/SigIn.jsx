@@ -25,12 +25,13 @@ export default function SigIn() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        credentials: "include",
       },
       body: JSON.stringify({
         email,
         password,
       }),
-      credentials: "include",
+      
     });
     const data = await res.json();
 

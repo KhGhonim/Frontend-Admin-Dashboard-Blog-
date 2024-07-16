@@ -13,7 +13,7 @@ export default function Users() {
   const HandleShowMore = () => {
     setTotalPostsInDashboard((prev) => prev + 4);
   };
-  const apiUrl = import.meta.env.VITE_API_URL
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const getUsers = async () => {
@@ -21,8 +21,8 @@ export default function Users() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          credentials: "include",
         },
-        credentials: "include",
       });
       const data = await res.json();
 
@@ -39,16 +39,13 @@ export default function Users() {
     eo.preventDefault();
 
     try {
-      const res = await fetch(
-        `${apiUrl}/api/Admin/deleteuser/${UserId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${apiUrl}/api/Admin/deleteuser/${UserId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
       const data = await res.json();
 
       if (res.ok) {
@@ -62,7 +59,7 @@ export default function Users() {
       console.log("Something went wrong, try again later");
     }
   };
-  
+
   const AdminStatusHandler = async () => {
     try {
       const res = await fetch(`${apiUrl}/api/Admin/${UserId}`, {
