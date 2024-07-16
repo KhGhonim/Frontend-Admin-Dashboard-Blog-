@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/search", "destination": "/index.html" },
+    { "source": "/profile/:userId", "destination": "/index.html" },
+    { "source": "/auth/login", "destination": "/index.html" },
+    { "source": "/auth/register", "destination": "/index.html" },
+    { "source": "/ForgotPW", "destination": "/index.html" },
+    { "source": "/dashboard", "destination": "/index.html" },
+    { "source": "/Profile/update/:userId", "destination": "/index.html" },
+    { "source": "/Posts", "destination": "/index.html" },
+    { "source": "/users", "destination": "/index.html" },
+    { "source": "/post/editor", "destination": "/index.html" },
+    { "source": "/post/update/:postId", "destination": "/index.html" },
+    { "source": "/AddMovie", "destination": "/index.html" },
+    { "source": "/DiscoverMovies", "destination": "/index.html" },
+    { "source": "/DiscoverSeries", "destination": "/index.html" },
+    { "source": "/PersonDiscover/:personId", "destination": "/index.html" },
+    { "source": "/SignUp", "destination": "/index.html" },
+    { "source": "/SignIn", "destination": "/index.html" },
+    { "source": "/movies/:movieId", "destination": "/index.html" },
+    { "source": "/tv/:tvId", "destination": "/index.html" },
+    { "source": "/catagories/:movieId", "destination": "/index.html" },
+    { "source": "/trending/:movieId", "destination": "/index.html" },
+    { "source": "/catagories/:movieId/:trending", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
