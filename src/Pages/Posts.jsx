@@ -10,21 +10,14 @@ export default function Posts() {
   const HandleShowMore = () => {
     setTotalPostsInDashboard((prev) => prev + 4);
   };
-  const apiUrl = import.meta.env.VITE_API_URL
-  
   useEffect(() => {
     const getPosts = async () => {
-      const token = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('token='))
-      ?.split('=')[1]; 
-
-      const res = await fetch(`${apiUrl}/api/post/allposts`, {
+      const res = await fetch(`http://localhost:5000/api/post/allposts`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`, 
         },
+        credentials: "include",
       });
       const data = await res.json();
 
@@ -44,7 +37,7 @@ export default function Posts() {
 
     try {
       const res = await fetch(
-        `${apiUrl}/api/post/deletepost/${PostId}`,
+        `http://localhost:5000/api/post/deletepost/${PostId}`,
         {
           method: "DELETE",
           headers: {
