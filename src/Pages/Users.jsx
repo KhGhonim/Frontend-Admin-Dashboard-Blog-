@@ -21,8 +21,8 @@ export default function Users() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          credentials: "include",
         },
+        credentials: "include",
       });
       const data = await res.json();
 

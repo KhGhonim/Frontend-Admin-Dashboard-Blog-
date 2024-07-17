@@ -15,7 +15,7 @@ export default function SigIn() {
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const apiUrl = import.meta.env.VITE_API_URL
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const HandleLogin = async (eo) => {
     eo.preventDefault();
@@ -25,13 +25,12 @@ export default function SigIn() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
       },
+      credentials: "include",
       body: JSON.stringify({
         email,
         password,
       }),
-      
     });
     const data = await res.json();
 
