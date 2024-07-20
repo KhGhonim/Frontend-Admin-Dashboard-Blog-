@@ -26,26 +26,24 @@ export default function PostUpadte() {
   const [PostState, setPostState] = useState(null);
   const ImageInputRef = useRef(null);
   let { postId } = useParams();
+
   const nevigate = useNavigate();
-  const apiUrl = import.meta.env.VITE_API_URL
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (postId) {
       try {
         const FetchOnePost = async () => {
-          const res = await fetch(
-            `${apiUrl}/api/post/getPost/${postId}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                credentials: "include",
-
-              },
-            }
-          );
+          const res = await fetch(`${apiUrl}/api/post/getPost/${postId}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          });
 
           const data = await res.json();
+          console.log(data);
           if (res.ok) {
             setPostFormData(data);
           } else {
@@ -57,7 +55,7 @@ export default function PostUpadte() {
         console.log(error.message);
       }
     }
-  }, [postId]);
+  }, [apiUrl, postId]);
 
   const ImagePicker = (eo) => {
     let file = eo.target.files[0];
@@ -137,17 +135,14 @@ export default function PostUpadte() {
     setIsloading(true);
 
     try {
-      const res = await fetch(
-        `${apiUrl}/api/post/updatepost/${postId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(PostFormData),
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${apiUrl}/api/post/updatepost/${postId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(PostFormData),
+        credentials: "include",
+      });
       const data = await res.json();
 
       if (!res.ok) {

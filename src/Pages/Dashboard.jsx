@@ -1,9 +1,117 @@
+import { useEffect, useState } from "react";
 import { CgUserList } from "react-icons/cg";
 import { FaComments } from "react-icons/fa";
 import { IoDocumentText } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
+  const [TotalUsers, setTotalUsers] = useState(0);
+  const [TotalPosts, setTotalPosts] = useState(0);
+  const [TotalComments, setTotalComments] = useState(0);
+  const [RecentUsersData, setRecentUsersData] = useState([]);
+  const [RecentCommentData, setRecentCommentData] = useState([]);
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  // Get the total users
+  useEffect(() => {
+    const getUsers = async () => {
+      const res = await fetch(`${apiUrl}/api/dashboard/totalusers`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setTotalUsers(data.length);
+      } else {
+        console.log(data.message);
+      }
+    };
+    getUsers();
+  }, [apiUrl]);
+  // Get the total Cooments
+  useEffect(() => {
+    const getComments = async () => {
+      const res = await fetch(`${apiUrl}/api/dashboard/totalcomments`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setTotalComments(data.length);
+      } else {
+        console.log(data.message);
+      }
+    };
+    getComments();
+  }, [apiUrl]);
+
+  // Get the total Posts
+  useEffect(() => {
+    const getPosts = async () => {
+      const res = await fetch(`${apiUrl}/api/post/dashboard/totalPosts`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setTotalPosts(data.length);
+      } else {
+        console.log(data.message);
+      }
+    };
+    getPosts();
+  }, [apiUrl]);
+
+  // Get the Recent added users
+  useEffect(() => {
+    const getPosts = async () => {
+      const res = await fetch(`${apiUrl}/api/dashboard/recentUsers`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setRecentUsersData(data);
+      } else {
+        console.log(data.message);
+      }
+    };
+    getPosts();
+  }, [apiUrl]);
+
+  // Get the Recent added commentts
+  useEffect(() => {
+    const getPosts = async () => {
+      const res = await fetch(`${apiUrl}/api/dashboard/recentcomments`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setRecentCommentData(data);
+      } else {
+        console.log(data.message);
+      }
+    };
+    getPosts();
+  }, [apiUrl]);
+
   return (
     <div className="flex flex-col md:h-screen ">
       <div className="flex w-full p-4  space-y-4">
@@ -11,7 +119,7 @@ export default function Dashboard() {
           <div className="p-6 rounded-lg w-64 max-sm:w-full  border border-gray-50  shadow-xl flex justify-between items-center">
             <div>
               <h2 className="">TOTAL USERS</h2>
-              <p className="text-2xl font-bold">19</p>
+              <p className="text-2xl font-bold">{TotalUsers}</p>
               <p className="text-primary">↑ 11 Last month</p>
             </div>
             <CgUserList size={35} />
@@ -19,7 +127,7 @@ export default function Dashboard() {
           <div className="p-6 w-64 max-sm:w-full  rounded-lg border border-gray-50  shadow-xl flex justify-between items-center">
             <div>
               <h2 className="">TOTAL COMMENTS</h2>
-              <p className="text-2xl font-bold">14</p>
+              <p className="text-2xl font-bold">{TotalComments}</p>
               <p className="text-primary">↑ 2 Last month</p>
             </div>
             <FaComments size={35} />
@@ -27,7 +135,7 @@ export default function Dashboard() {
           <div className="p-6 w-64 max-sm:w-full  rounded-lg  border border-gray-50 shadow-xl flex justify-between items-center">
             <div>
               <h2 className="">TOTAL POSTS</h2>
-              <p className="text-2xl font-bold">14</p>
+              <p className="text-2xl font-bold">{TotalPosts}</p>
               <p className="text-primary">↑ 0 Last month</p>
             </div>
             <IoDocumentText size={35} />
@@ -55,56 +163,22 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://placehold.co/32x32"
-                      alt="User Image 1"
-                    />
-                  </td>
-                  <td>fendimohamed2843</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://placehold.co/32x32"
-                      alt="User Image 2"
-                    />
-                  </td>
-                  <td>karthikeyaandhoju8665</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://placehold.co/32x32"
-                      alt="User Image 3"
-                    />
-                  </td>
-                  <td>random</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://placehold.co/32x32"
-                      alt="User Image 4"
-                    />
-                  </td>
-                  <td>Harsh Chaudhary</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src="https://placehold.co/32x32"
-                      alt="User Image 5"
-                    />
-                  </td>
-                  <td>sahandghavidel4276</td>
-                </tr>
+                {RecentUsersData?.map((user, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>
+                        <img
+                          className="w-8 h-8 rounded-full "
+                          src={
+                            user.profilePicture || "https://placehold.co/32x32"
+                          }
+                          alt={user.name}
+                        />
+                      </td>
+                      <td className="capitalize font-medium">{user.name}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -129,32 +203,14 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>nice job</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>nice job bro</td>
-                  <td>1</td>
-                </tr>
-                <tr>
-                  <td>
-                    Congratulations! You have successfully set up Tailwind CSS
-                    with Vite, providing a blazing fast and efficient...
-                  </td>
-                  <td>2</td>
-                </tr>
-                <tr>
-                  <td>
-                    Want to learn HTML, CSS and JavaScript by building fun and
-                    engaging projects?
-                  </td>
-                  <td>2</td>
-                </tr>
-                <tr>
-                  <td>w</td>
-                  <td>0</td>
-                </tr>
+                {RecentCommentData.map((comment, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{comment.content}</td>
+                      <td>{comment.numberoflikes}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

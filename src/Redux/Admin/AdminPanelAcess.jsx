@@ -9,7 +9,7 @@ export default function AdminPanelAcess() {
 
   useEffect(() => {
     if (
-      !currentUser ||
+      
       currentUser.isAdmin === false ||
       currentUser.user.isAdmin === false
     ) {
