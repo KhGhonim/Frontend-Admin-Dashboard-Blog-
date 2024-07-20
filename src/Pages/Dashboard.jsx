@@ -55,7 +55,7 @@ export default function Dashboard() {
   // Get the total Posts
   useEffect(() => {
     const getPosts = async () => {
-      const res = await fetch(`${apiUrl}/api/post/dashboard/totalPosts`, {
+      const res = await fetch(`${apiUrl}/api/dashboard/totalPosts`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
