@@ -33,7 +33,7 @@ export default function PostCreation() {
       setImage(file);
     }
   };
-  const apiUrl = import.meta.env.VITE_API_URL
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   // This function handles the upload of the image to the Firebase storage
   const UploadImageHandler = () => {
@@ -110,7 +110,6 @@ export default function PostCreation() {
         headers: {
           "Content-Type": "application/json",
           credentials: "include",
-
         },
         body: JSON.stringify(PostFormData),
       });
@@ -170,205 +169,147 @@ export default function PostCreation() {
   }, []); // Empty dependency array ensures the effect runs only once
 
   return (
-    <div className="min-h-screen  p-6 pb-3 relative">
-      <div className="max-w-4xl mx-auto  p-6 rounded-lg shadow-xl mb-10">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-xl md:text-3xl font-bold">Welcome Admin!</h1>
-          <form
-            onSubmit={PostCreationHandler}
-            className="space-x-2 flex gap-2 justify-center items-center"
+<div className="min-h-screen  p-6 sm:p-8">
+  <div className="max-w-3xl mx-auto p-8 bg-white rounded-lg shadow-2xl">
+    <div className="flex justify-between items-center mb-6 flex-wrap">
+      <h1 className="text-3xl font-semibold text-gray-800 flex-grow sm:flex-none mb-4 sm:mb-0">Welcome Admin!</h1>
+      <form
+        onSubmit={PostCreationHandler}
+        className="space-x-4 flex gap-4 justify-center items-center flex-wrap"
+      >
+        <Link
+          to="/"
+          className="py-2 px-4 rounded-lg text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors duration-300"
+        >
+          Cancel
+        </Link>
+        <button
+          type="submit"
+          disabled={imageFileUploading || Isloading}
+          className="py-2 px-6 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors duration-300"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+
+    {error && <p className="text-red-600 text-center">{error}</p>}
+
+    <div className="mb-8">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Start the Journey!</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Category <span className="text-red-500">*</span>
+          </label>
+          <select
+            id="catagory"
+            className="w-full p-4 border-2 text-[--input-text-color] border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            defaultValue=""
+            onChange={handleChange}
           >
-            <Link
-              to="/"
-              className="bg-gray-300 text-[#111827] cursor-pointer  py-2 px-4 rounded-lg hover:bg-gray-400 transition-all duration-300 ease-in-out"
-            >
-              Cancel
-            </Link>
-            <button
-              type="submit"
-              disabled={imageFileUploading || Isloading}
-              className="py-2 px-4 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-all duration-300 ease-in-out"
-            >
-              Save
-            </button>
-          </form>
+            <option value="" disabled>Select category</option>
+            <option value="Technology">Technology</option>
+            <option value="Politics">Politics</option>
+            <option value="Sport">Sport</option>
+            <option value="Business">Business</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div className="mb-8">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6">SEO & Social Sharing</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="flex flex-col space-y-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Post Title <span className="text-red-500">*</span>
+          </label>
+          <input
+            onChange={handleChange}
+            id="title"
+            type="text"
+            className="w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Enter Post Title"
+          />
+
+          <label className="block text-sm font-medium text-gray-700">
+            Post Author <span className="text-red-500">*</span>
+          </label>
+          <input
+            onChange={handleChange}
+            id="author"
+            type="text"
+            className="w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="Enter Author Name"
+          />
         </div>
 
-        {error && <p className="text-red-500">{error}</p>}
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-4">Start the Journey!</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                Category <span className="text-red-500">*</span>
-              </label>
-              <select
-                id="catagory"
-                className="w-full p-2 border border-border rounded-lg text-black"
-                defaultValue=""
-                onChange={handleChange}
-              >
-                <option value="" disabled>
-                  Categorize your post
-                </option>
-                <option value="Technology">Technology</option>
-                <option value="Politics">Politics</option>
-                <option value="Sport">Sport</option>
-                <option value="Business">Business</option>
-              </select>
-            </div>
-
-            {/* <div>
-              <label className="block text-sm font-medium mb-2">
-                Post URL <span className="text-red-500">*</span>{" "}
-              </label>
-              <div className="flex">
-                <span className="flex items-center px-3 border border-r-0 border-gray-300 rounded-l-lg bg-gray-200 text-gray-500">
-                  KGNEWS/
-                </span>
-                <input
-                  onChange={handleChange}
-                  id="url"
-                  type="text"
-                  className="w-full p-2 border border-gray-300 rounded-r-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Your Post URL...."
-                />
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Category Image <span className="text-red-500">*</span>
+          </label>
+          <input
+            ref={ImageInputRef}
+            hidden
+            onChange={ImagePicker}
+            type="file"
+          />
+          <div
+            onClick={() => ImageInputRef.current.click()}
+            className="relative cursor-pointer w-full h-72 sm:h-80 rounded-lg overflow-hidden shadow-xl"
+          >
+            {imageFileUploadProgress && (
+              <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center z-10 bg-black bg-opacity-50 text-white">
+                <span>{imageFileUploadProgress}%</span>
               </div>
-            </div> */}
-          </div>
-        </div>
-        <div className="mb-6">
-          <h2 className="text-sm font-semibold mb-4">SEO & Social Sharing</h2>
-          <div className="grid grid-cols-1  md:grid-cols-2 gap-5">
-            <div className="flex flex-col space-y-2">
-              <label className="block text-sm font-medium pb-2">
-                Post Title <span className="text-red-500">*</span>{" "}
-              </label>
-              <input
-                onChange={handleChange}
-                id="title"
-                type="text"
-                className="w-full p-2 border border-border rounded-lg text-black"
-                placeholder="Your Post Title"
-              ></input>
-
-              <label className="block text-sm font-medium mb-2">
-                Post Author <span className="text-red-500">*</span>{" "}
-              </label>
-              <input
-                onChange={handleChange}
-                id="author"
-                type="text"
-                className="w-full p-2 border border-border rounded-lg text-black"
-                placeholder="Your Post Title"
-              ></input>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                Category Image <span className="text-red-500">*</span>{" "}
-              </label>
-              <input
-                ref={ImageInputRef}
-                hidden
-                onChange={ImagePicker}
-                type="file"
-              />
-              <div
-                onClick={() => ImageInputRef.current.click()}
-                className="relative mb-6 w-56 h-56 md:w-96 md:h-96 cursor-pointer "
-              >
-                {imageFileUploadProgress && (
-                  <CircularProgressbar
-                    value={imageFileUploadProgress || 0}
-                    text={`${imageFileUploadProgress}%`}
-                    strokeWidth={1}
-                    styles={{
-                      root: {
-                        width: "100%",
-                        height: "100%",
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        zIndex: 1,
-                      },
-                      path: {
-                        stroke: `rgba(62, 152, 199, ${
-                          imageFileUploadProgress / 100
-                        })`,
-                      },
-                      text: {
-                        fill: "#1111",
-                        fontSize: "16px",
-                      },
-                    }}
-                  />
-                )}
-                <img
-                  className={`w-full h-full rounded-full object-cover border-4 ${
-                    imageFileUploadProgress &&
-                    imageFileUploadProgress < 100 &&
-                    "opacity-60"
-                  }`}
-                  src={ImageUrl}
-                  alt={"category image"}
-                />
-              </div>
-            </div>
-          </div>
-          {imageFileUploadError && (
-            <h1 className="bg-red-500 p-3 text-white mb-1 rounded-xl text-center">
-              {imageFileUploadError}
-            </h1>
-          )}
-          <div className="mt-6">
-            <label className="block text-sm font-medium mb-2">
-              Post Description<span className="text-red-500">*</span>{" "}
-            </label>
-
-            <ReactQuill
-              theme="snow"
-              placeholder="Write something..."
-              className="h-72 mb-12"
-              onChange={(value) => {
-                setPostFormData({ ...PostFormData, content: value });
-              }}
+            )}
+            <img
+              className={`w-full h-full object-cover ${imageFileUploadProgress && imageFileUploadProgress < 100 ? 'opacity-60' : ''}`}
+              src={ImageUrl}
+              alt="Category"
             />
           </div>
         </div>
       </div>
-      <div
-        className={` ${
-          PostState ? "block" : "hidden"
-        } fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50`}
-      >
-        <div
-          ref={PostPublishModalref}
-          className="bg-white text-black rounded-lg shadow-lg p-6 max-w-sm w-full"
-        >
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold bg">
-              Post successfully Puplished{" "}
-            </h2>
-            <button className="hover:scale-90">
-              <CgClose
-                className="cursor-pointer"
-                onClick={() => {
-                  setPostState(false);
-                }}
-                color="#000"
-                size="20"
-              />
-            </button>
-          </div>
-          <p className="mt-4 text-muted-foreground flex justify-center items-center gap-2">
-            Your post has been published successfully!{" "}
-            <FaCheckCircle color="green" size={20} />{" "}
-          </p>
+      {imageFileUploadError && (
+        <div className="mt-4 bg-red-500 text-white p-4 rounded-lg text-center">
+          {imageFileUploadError}
         </div>
-      </div>
+      )}
     </div>
+
+    <div className="mt-6">
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Post Description <span className="text-red-500">*</span>
+      </label>
+      <ReactQuill
+        theme="snow"
+        placeholder="Write something..."
+        className="h-72 sm:h-80 mb-12 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        onChange={(value) => setPostFormData({ ...PostFormData, content: value })}
+      />
+    </div>
+  </div>
+
+  {/* Modal for Post Success */}
+  <div className={`${PostState ? 'block' : 'hidden'} fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50`}>
+    <div className="bg-white text-black rounded-lg shadow-lg p-8 max-w-lg w-full transform transition-all duration-500">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold text-indigo-600">Post Successfully Published!</h2>
+        <button
+          className="hover:scale-90"
+          onClick={() => setPostState(false)}
+        >
+          <CgClose size={20} />
+        </button>
+      </div>
+      <p className="mt-4 text-center text-gray-600 flex items-center justify-center gap-2">
+        Your post has been published successfully! <FaCheckCircle color="green" size={20} />
+      </p>
+    </div>
+  </div>
+</div>
+
   );
 }

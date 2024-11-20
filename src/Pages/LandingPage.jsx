@@ -1,10 +1,6 @@
-// @ts-ignore
 import { Link } from "react-router-dom";
-// @ts-ignore
 import LandingPageHero from "../assets/Saly-10.svg";
-// @ts-ignore
 import HandoftheHero from "../assets/Saly-37.svg";
-// @ts-ignore
 import PerformanceOfTheHero from "../assets/Saly-26.svg";
 
 export default function LandingPage() {

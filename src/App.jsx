@@ -5,6 +5,7 @@ import DrawerForMobiles from "./components/Drawers/DrawerForMobiles";
 import DrawerForPC from "./components/Drawers/DrawerForPC";
 import Footer from "../src/components/Footer";
 import CookieAdminModal from "../src/components/CookieAdminModal";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [DarkLightMode, setDarkLightMode] = useState(
@@ -23,9 +24,10 @@ function App() {
         setDarkLightMode={setDarkLightMode}
         DarkLightMode={DarkLightMode}
       />
+      <ToastContainer />
       <DrawerForPC />
       <Outlet />
-      <CookieAdminModal/>
+      <CookieAdminModal />
       <DrawerForMobiles />
       <Footer />
     </div>

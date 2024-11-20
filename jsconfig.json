@@ -1,26 +1,66 @@
 {
   "compilerOptions": {
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
-    "checkJs": true,
+    "target": "es6",
+    "module": "ESNext",
+    "moduleResolution": "node",
     "jsx": "react-jsx",
-    "baseUrl": "src",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@backend/*": ["../backend/*"],
+      "@components/*": ["./src/components/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@utils/*": ["./src/utils/*"]
+    },
     "resolveJsonModule": true,
-    "lib": [
-      "es6",
-      "dom",
-      "es2017"
-    ],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "checkJs": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "skipLibCheck": true,
+    "incremental": true,
   },
   "include": [
-    "src",
-    "app"
+    "./src/**/*",
+    "./server/**/*",
+    "../Backend/**/*",
+    "../frontend/**/*",
+    "../backend/**/*",
+    "app/**/*",
+    "components/**/*",
+    "public/**/*",
+    "constants/**/*",
+    "utils/**/*",
+    "styles/**/*",
+    "pages/**/*",
+    "tests/**/*",
+    "configs/**/*"
   ],
   "exclude": [
     "node_modules",
-    "build"
-  ]
+    "build",
+    "dist",
+    "scripts"
+  ],
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:@next/next/recommended",
+      "plugin:node/recommended",
+      "prettier"
+    ],
+    "plugins": ["react", "node", "express"],
+    "rules": {
+      "prettier/prettier": "error",
+      "node/no-unsupported-features/es-syntax": ["error", { "ignores": ["modules"] }],
+      "node/no-missing-import": ["error", { "tryExtensions": [".js", ".json", ".node"] }],
+      "react/prop-types": "off"  // Optional: if using TypeScript or if PropTypes are not used
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "es2021": true
+    }
+  }
 }

@@ -11,7 +11,8 @@ export default function Register() {
   const [loading, setloading] = useState(false);
   const [SignUPerror, setSignUPerror] = useState(null);
   const navigate = useNavigate();
-  const apiUrl = import.meta.env.VITE_API_URL
+  // @ts-ignore
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const HandleRegister = async (eo) => {
     eo.preventDefault();
@@ -38,136 +39,149 @@ export default function Register() {
     const data = await res.json();
 
     if (!res.ok) {
-      toast.error(data.message);
+      toast.error("Registration failed");
       setloading(false);
-      setSignUPerror(data.message);
+      setSignUPerror("Registration failed");
+      return;
     } else {
       navigate("/auth/login");
+      toast.success("Registration successful");
     }
 
     eo.target.reset();
   };
   return (
-    <div className="w-full  h-screen  flex flex-col justify-center mx-auto max-w-xl p-8 space-y-3 rounded-xl dark:bg-gray-50 dark:text-gray-800">
-      <h1 className="text-2xl font-bold text-center">
-        Welcome to Sign Up Page!
-      </h1>
-      <form onSubmit={HandleRegister} className="space-y-6 ">
-        <div className="space-y-1 text-sm">
-          <label htmlFor="Name" className="block dark:text-gray-600">
-            Name
-          </label>
-          <input
-            type="text"
-            name="username"
-            defaultValue={name}
-            id="username"
-            placeholder="Name"
-            onChange={(eo) => {
-              let value = eo.target.value;
-              setname(value.toLowerCase());
-            }}
-            className="w-full px-4 py-3 rounded-md outline-none text-black"
-          />
-        </div>
-        <div className="space-y-1 text-sm">
-          <label htmlFor="email" className="block dark:text-gray-600">
-            Email
-          </label>
-          <input
-            defaultValue={email}
-            type="email"
-            name="Email"
-            id="Email"
-            onChange={(eo) => {
-              let value = eo.target.value;
-              setemail(value.toLowerCase());
-            }}
-            placeholder="Email"
-            className="w-full px-4 py-3 rounded-md outline-none  text-black"
-          />
-        </div>
-        <div className="space-y-1 text-sm">
-          <label htmlFor="password" className="block dark:text-gray-600">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            defaultValue={password}
-            id="password"
-            onChange={(eo) => {
-              let value = eo.target.value;
-              setpassword(value.toLowerCase());
-            }}
-            placeholder="Password"
-            className="w-full px-4 py-3 rounded-md outline-none  text-black"
-          />
-        </div>
-
-        <div className="space-y-1 text-sm">
-          <label htmlFor="password" className="block dark:text-gray-600">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            defaultValue={confirmPassword}
-            id="confirmPassword"
-            onChange={(eo) => {
-              let value = eo.target.value;
-              setconfirmPassword(value.toLowerCase());
-            }}
-            placeholder="Confirm your Password"
-            className="w-full px-4 py-3 rounded-md outline-none  text-black"
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className="block w-full p-3 text-center rounded-md bg-teal-700 transition-colors duration-300 ease-in-out hover:bg-teal-800 text-white"
-        >
-          {loading ? "Loading..." : "Sign Up"}
-        </button>
-        <div className="flex flex-col items-center text-center ">
-          {SignUPerror && (
-            <p className="text-red-500 capitalize w-screen p-3 ">
-              Somthing wrong happened while registering the user
-            </p>
-          )}
-        </div>
-        <GoogleAuth />
-      </form>
-
-      {/* Social Login */}
-      {/* <div className="flex items-center pt-4 space-x-1">
-        <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
-        <p className="px-3 text-sm dark:text-gray-600">
-          Sign Up with social accounts
+    <div className="min-h-screen flex items-center justify-center bg-transparent lg:py-5">
+      <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-md">
+        {/* Header */}
+        <h1 className="text-3xl font-bold text-center text-teal-700 mb-6">
+          Create Your Account
+        </h1>
+        <p className="text-gray-600 text-sm text-center mb-6">
+          Join us and explore endless possibilities!
         </p>
-        <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
+
+        {/* Form */}
+        <form onSubmit={HandleRegister} className="space-y-6">
+          {/* Name */}
+          <div className="space-y-2">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Full Name
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your full name"
+              defaultValue={name}
+              onChange={(e) => setname(e.target.value.toLowerCase())}
+              className="w-full p-3 rounded-lg border border-gray-300 text-[--input-text-color] focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              required
+            />
+          </div>
+
+          {/* Email */}
+          <div className="space-y-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              defaultValue={email}
+              onChange={(e) => setemail(e.target.value.toLowerCase())}
+              className="w-full p-3 rounded-lg border border-gray-300 text-[--input-text-color] focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              required
+            />
+          </div>
+
+          {/* Password */}
+          <div className="space-y-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter a strong password"
+              defaultValue={password}
+              onChange={(e) => setpassword(e.target.value)}
+              className="w-full p-3 rounded-lg border border-gray-300 text-[--input-text-color] focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              required
+            />
+          </div>
+
+          {/* Confirm Password */}
+          <div className="space-y-2">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Re-enter your password"
+              defaultValue={confirmPassword}
+              onChange={(e) => setconfirmPassword(e.target.value)}
+              className="w-full p-3 rounded-lg border border-gray-300 text-[--input-text-color] focus:ring-2 focus:ring-teal-500 focus:outline-none"
+              required
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 rounded-lg bg-teal-700 text-white text-lg font-semibold transition hover:bg-teal-800 focus:ring-4 focus:ring-teal-400 focus:outline-none"
+          >
+            {loading ? "Registering..." : "Sign Up"}
+          </button>
+        </form>
+
+        {/* Error Message */}
+        {SignUPerror && (
+          <div className="mt-4 text-sm text-red-500 text-center">
+            Something went wrong. Please try again.
+          </div>
+        )}
+
+        {/* Divider */}
+        <div className="flex items-center my-6 w-full text-center justify-center">
+          <span className="w-1/3 h-[1px] bg-gray-300"></span>
+          <span className="text-sm text-gray-500 mx-2">OR</span>
+          <span className="w-1/3 h-[1px] bg-gray-300"></span>
+        </div>
+
+        {/* Google Authentication */}
+        <GoogleAuth />
+
+        {/* Footer */}
+        <p className="text-sm text-center text-gray-600 mt-6">
+          Already have an account?{" "}
+          <a
+            href="/auth/login"
+            className="text-teal-600 font-medium hover:underline"
+          >
+            Log In
+          </a>
+        </p>
       </div>
-      <div className="flex justify-center space-x-4">
-        <button aria-label="Log in with Google" className="p-2 rounded-full bg-teal-600 transition-colors duration-300 ease-in-out hover:bg-teal-800">
-          <IoLogoGoogle color="white" size={24} />
-        </button>
-        <button aria-label="Log in with Facebook" className="p-2 rounded-full bg-teal-600 transition-colors duration-300 ease-in-out hover:bg-teal-800">
-          <IoLogoFacebook color="white" size={24} />
-        </button>
-        <button aria-label="Log in with GitHub" className="p-2 rounded-full bg-teal-600 transition-colors duration-300 ease-in-out hover:bg-teal-800">
-          <IoLogoGithub color="white" size={24} />
-        </button>
-      </div> */}
-      <p className="text-xs text-center sm:px-6 dark:text-gray-600">
-        Already have an account?
-        <a
-          rel="noopener noreferrer"
-          href="/auth/login"
-          className="underline dark:text-gray-800"
-        >
-          Log In
-        </a>
-      </p>
+
       <ToastContainer />
     </div>
   );

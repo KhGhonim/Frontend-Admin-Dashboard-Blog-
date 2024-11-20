@@ -8,13 +8,15 @@ import {
   signInStart,
   signInSuccess,
 } from "../../Redux/userSlice.js";
+import { toast } from "react-toastify";
 export default function GoogleAuth() {
   // @ts-ignore
 
   const auth = getAuth(app);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const apiUrl = import.meta.env.VITE_API_URL
+  // @ts-ignore
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const location = useLocation().pathname;
   const HandleGoogleAuth = async (eo) => {
@@ -37,14 +39,14 @@ export default function GoogleAuth() {
         }),
         credentials: "include",
       });
-      console.log(res);
+
       const data = await res.json();
 
       if (res.ok) {
         dispatch(signInSuccess(data));
         navigate("/");
       } else {
-        throw new Error(data.error || "Failed to authenticate");
+        toast.error("Failed to authenticate");
       }
     } catch (error) {
       dispatch(signInFailure(error.message));
@@ -54,9 +56,10 @@ export default function GoogleAuth() {
     <button
       type="submit"
       onClick={HandleGoogleAuth}
-      className=" w-full p-3 text-center rounded-md bg-teal-700 transition-colors duration-300 ease-in-out hover:bg-teal-800 text-white flex justify-center items-center gap-4"
-    >
-      <CgGoogle /> {`${location === "/auth/register" ? "Sign Up" : "Sign In"}`}
+      className="w-full py-3 bg-teal-600 flex items-center justify-center gap-1 text-white rounded-lg font-semibold transition duration-300 ease-in-out hover:bg-teal-700 focus:ring-4 focus:ring-teal-300 focus:outline-none"
+      >
+      {`${location === "/auth/register" ? "Sign Up With" : "Sign In With"}`}{" "}
+      <CgGoogle  size={13} />
     </button>
   );
 }

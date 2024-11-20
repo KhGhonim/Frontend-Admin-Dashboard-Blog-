@@ -7,7 +7,6 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../../FirebaseConfig/FirebaseConfig";
-import { CircularProgressbar } from "react-circular-progressbar";
 import {
   updateFailure,
   updateStart,
@@ -32,7 +31,8 @@ export default function ProfileUpdate() {
   const [formData, setFormData] = useState({});
   const [UpdateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
-  const apiUrl = import.meta.env.VITE_API_URL
+  // @ts-ignore
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const dispatch = useDispatch();
   // When the user clicks on the image it will open the file explorer to select an image from their device and store it in the state
@@ -125,7 +125,7 @@ export default function ProfileUpdate() {
       return;
     }
     if (imageFileUploading) {
-      setUpdateUserError('Please wait for image to upload');
+      setUpdateUserError("Please wait for image to upload");
       return;
     }
 
@@ -133,9 +133,7 @@ export default function ProfileUpdate() {
       dispatch(updateStart());
 
       const res = await fetch(
-        `${apiUrl}/api/update/${
-          currentUser._id || currentUser.user._id
-        }`,
+        `${apiUrl}/api/update/${currentUser._id || currentUser.user._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -157,124 +155,166 @@ export default function ProfileUpdate() {
     }
   };
   return (
-    <div className="relative w-screen h-dvh">
-      <div className="absolute inset-0 -z-10">
-        <img
-          src="https://www.shutterstock.com/shutterstock/photos/2128959116/display_1500/stock-vector-abstract-waving-particle-technology-background-design-abstract-wave-moving-dots-flow-particles-hi-2128959116.jpg"
-          alt=""
-          className="w-full h-full object-cover"
-        />
+    <div className="min-h-screen  flex flex-col items-center py-5 md:py-10">
+      {/* Profile Header */}
+      <div className="w-full max-w-4xl p-6 bg-[--background-color] rounded-xl shadow-lg mb-8">
+        <div className="flex items-center space-x-4">
+          <div className="relative">
+            <input
+              ref={ImageInputRef}
+              hidden
+              onChange={ImagePicker}
+              type="file"
+            />
+            <div
+              onClick={() => ImageInputRef.current.click()}
+              className="cursor-pointer"
+            >
+              <img
+                src={
+                  ImageUrl ||
+                  currentUser?.profilePicture ||
+                  currentUser?.user?.profilePicture
+                }
+                alt={currentUser?.name || currentUser?.user?.name}
+                className="w-28 h-28 rounded-full object-cover border-4 border-indigo-500"
+              />
+            </div>
+            {imageFileUploadProgress && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
+                <p className="text-[--background-color] font-semibold">
+                  {imageFileUploadProgress}%
+                </p>
+              </div>
+            )}
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-[--text-color]">
+              {currentUser?.name || currentUser?.user?.name}
+            </h1>
+            <p className=" text-[--text-color] text-sm">
+              {currentUser?.email || currentUser?.user?.email}
+            </p>
+            <p className=" text-[--text-color] italic mt-1">
+              "Welcome back! Ready to update your profile?"
+            </p>
+          </div>
+        </div>
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col items-center p-6 text-black rounded-lg shadow-md max-w-md mx-auto"
-      >
-        <h1 className="text-2xl font-bold mb-4 text-white ">Profile</h1>
-        <input ref={ImageInputRef} hidden onChange={ImagePicker} type="file" />
-        <div
-          onClick={() => ImageInputRef.current.click()}
-          className="relative mb-6"
-        >
-          {imageFileUploadProgress && (
-            <CircularProgressbar
-              value={imageFileUploadProgress || 0}
-              text={`${imageFileUploadProgress}%`}
-              strokeWidth={5}
-              styles={{
-                root: {
-                  width: "100%",
-                  height: "100%",
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                },
-                path: {
-                  stroke: `rgba(62, 152, 199, ${
-                    imageFileUploadProgress / 100
-                  })`,
-                },
-              }}
-            />
-          )}
-
-          <img
-            className={`w-24 h-24 rounded-full object-cover border-4 ${
-              imageFileUploadProgress &&
-              imageFileUploadProgress < 100 &&
-              "opacity-60"
-            } `}
-            src={
-              ImageUrl ||
-              currentUser?.profilePicture ||
-              currentUser.user.profilePicture
-            }
-            alt={currentUser?.name || currentUser.user.name}
-          />
+      {/* Update Form */}
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Personal Info Section */}
+        <div className="p-6 bg-[--background-color] rounded-xl shadow-md">
+          <h2 className="text-xl font-bold  text-[--text-color] mb-4">
+            Personal Information
+          </h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium">
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                defaultValue={currentUser?.name || currentUser?.user?.name}
+                placeholder="Name"
+                onChange={handleChange}
+                className="w-full p-3 border text-[--input-text-color] rounded-lg focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                defaultValue={currentUser?.email || currentUser?.user?.email}
+                placeholder="Email"
+                onChange={handleChange}
+                className="w-full p-3 border text-[--input-text-color] rounded-lg focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                placeholder="New Password"
+                onChange={handleChange}
+                className="w-full p-3 border text-[--input-text-color] rounded-lg focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading || imageFileUploading}
+              className="w-full bg-indigo-500  text-[--text-color] py-3 rounded-lg hover:bg-indigo-600 focus:ring-2 focus:ring-indigo-400"
+            >
+              {loading ? "Updating..." : "Update Information"}
+            </button>
+          </form>
         </div>
 
-        {imageFileUploadError && (
-          <h1 className="bg-red-500 p-3 text-white mb-1 rounded-xl text-center">
-            {imageFileUploadError}
-          </h1>
-        )}
-        <div className="w-full mb-4">
-          <input
-            type="text"
-            id="name"
-            defaultValue={currentUser?.name || currentUser?.user?.name}
-            placeholder="Name"
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 "
-          />
+        {/* Account Settings Section */}
+        <div className="p-6 bg-[--background-color] rounded-xl shadow-md">
+          <h2 className="text-xl font-bold  text-[--text-color] mb-4">Settings</h2>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <p className=" text-[--text-color]">Enable Notifications</p>
+              <label className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  className="form-checkbox text-indigo-600"
+                />
+                <span className="ml-2  text-[--text-color]">On</span>
+              </label>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className=" text-[--text-color]">Make Profile Public</p>
+              <label className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  className="form-checkbox text-indigo-600"
+                />
+                <span className="ml-2  text-[--text-color]">Yes</span>
+              </label>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className=" text-[--text-color]">Email Updates</p>
+              <label className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  className="form-checkbox text-indigo-600"
+                />
+                <span className="ml-2  text-[--text-color]">Subscribe</span>
+              </label>
+            </div>
+          </div>
         </div>
-        <div className="w-full mb-4">
-          <input
-            defaultValue={currentUser?.email || currentUser?.user?.email}
-            type="email"
-            id="email"
-            placeholder="Email"
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 "
-          />
-        </div>
-        <div className="w-full mb-6">
-          <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            onChange={handleChange}
-            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 "
-          />
-        </div>
-        <button
-          disabled={loading || imageFileUploading}
-          type="submit"
-          className="w-full bg-gray-950 p-3 rounded-lg hover:bg-black/80 focus:outline-none focus:ring-2 text-white"
-        >
-          {loading ? "Updating..." : "Update"}
-        </button>
-      </form>
-      <div className="flex flex-col items-center text-center ">
-        {UpdateUserSuccess && (
-          <p className="text-green-500 capitalize w-screen p-3 ">
-            {UpdateUserSuccess}
-          </p>
-        )}
-        {userError && (
-          <p className="text-red-500 capitalize w-screen p-3 ">{userError}</p>
-        )}
-        {error && (
-          <p className=" bg-red-500 capitalize w-screen p-3 text-gray-50">
-            {error}
-          </p>
-        )}
+      </div>
 
-        {updateUserError && (
-          <p className="bg-red-500 capitalize w-screen p-3 text-gray-50">
-            {updateUserError}
-          </p>
-        )}
+      {/* Recent Activity Section */}
+      <div className="w-full max-w-4xl mt-8 p-6 bg-[--background-color] rounded-xl shadow-md">
+        <h2 className="text-xl font-bold  text-[--text-color] mb-4">
+          Recent Activity
+        </h2>
+        <ul className="space-y-4">
+          <li className="flex items-center justify-between text-sm">
+            <p>Updated profile picture</p>
+            <span className=" text-[--text-color]">2 hours ago</span>
+          </li>
+          <li className="flex items-center justify-between text-sm">
+            <p>Changed email address</p>
+            <span className=" text-[--text-color]">Yesterday</span>
+          </li>
+          <li className="flex items-center justify-between text-sm">
+            <p>Subscribed to notifications</p>
+            <span className=" text-[--text-color]">Last week</span>
+          </li>
+        </ul>
       </div>
     </div>
   );

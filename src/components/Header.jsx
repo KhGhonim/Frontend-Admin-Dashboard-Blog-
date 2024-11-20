@@ -59,6 +59,7 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
   const DarkLightModeHandler = () => {
     setDarkLightMode((data) => (data === "dark" ? "light" : "dark"));
   };
+  // @ts-ignore
   const apiUrl = import.meta.env.VITE_API_URL;
   const HandleSignOut = async () => {
     try {
@@ -141,11 +142,11 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
                   className="relative inline-block text-left cursor-pointer"
                 >
                   <div className="flex items-center space-x-3">
-                    <span className="capitalize">
+                    <span className="capitalize text-lg font-semibold text-[--text-color]">
                       {currentUser.name || currentUser?.user?.name}
                     </span>
                     <img
-                      className="w-10 h-10 rounded-full object-cover"
+                      className="w-12 h-12 rounded-full object-cover border-2 border-gray-200 shadow-sm"
                       src={
                         currentUser?.profilePicture ||
                         currentUser?.user?.profilePicture
@@ -153,61 +154,73 @@ export default function Header({ setDarkLightMode, DarkLightMode }) {
                       alt="User profile picture"
                     />
                   </div>
+
                   <div
                     ref={ref}
-                    className={` ${
+                    className={`${
                       IsMenuOpen ? "block" : "hidden"
-                    } absolute border z-30 border-gray-50 p-2 right-0 mt-2 w-48  rounded-md shadow-lg bg-[--background-color] text-[--text-color] font-medium`}
+                    } absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-100 text-gray-700 font-medium z-30`}
                   >
-                    <div className="py-1">
+                    <div className="py-2">
                       <Link
                         to={`/Profile/update/${
                           currentUser?._id || currentUser?.user?._id
                         }`}
-                        className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-teal-700 duration-300 transition-all ease-linear rounded-lg"
+                        className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-teal-600 hover:text-white duration-300 transition-all ease-linear rounded-lg"
                       >
                         Settings
-                        <IoSettings size={20} className="ml-auto" />
+                        <IoSettings
+                          size={20}
+                          className="ml-auto text-gray-500"
+                        />
                       </Link>
+
                       <Link
                         to={`/Profile/${
                           currentUser?._id || currentUser?.user?._id
                         }`}
-                        className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-teal-700 duration-300 transition-all ease-linear rounded-lg"
+                        className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-teal-600 hover:text-white duration-300 transition-all ease-linear rounded-lg"
                       >
                         Profile
-                        <CgProfile size={20} className="ml-auto" />
+                        <CgProfile
+                          size={20}
+                          className="ml-auto text-gray-500"
+                        />
                       </Link>
+
                       <div
                         onClick={() => {
                           dispatch(signoutSuccess());
                           HandleSignOut();
                         }}
-                        className="flex items-center px-4 py-2 text-sm  hover:bg-teal-700 duration-300 transition-all ease-linear rounded-lg cursor-pointer"
+                        className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-teal-600 hover:text-white duration-300 transition-all ease-linear rounded-lg"
                       >
                         Logout
-                        <CgLogOut size={20} className="ml-auto" />
+                        <CgLogOut size={20} className="ml-auto text-gray-500" />
                       </div>
 
                       {/* Dark mode toggle */}
-                      <div>
+                      <div className="py-2">
                         <label
                           htmlFor="Toggle1"
-                          className="flex justify-center items-center  space-x-4 cursor-pointer "
+                          className="flex justify-between items-center cursor-pointer"
                         >
-                          <span className="relative ">
+                          <span className="text-sm pl-4 text-gray-600">
+                            Dark Mode
+                          </span>
+                          <span className="relative inline-block w-10 h-6 mr-3">
                             <input
                               id="Toggle1"
                               type="checkbox"
                               className="hidden peer"
+                              onClick={DarkLightModeHandler}
                             />
                             <div
-                              onClick={DarkLightModeHandler}
-                              className="w-10 h-6 rounded-full shadow-inner  bg-green-700 peer-checked:bg-gray-900"
+                          
+                              className="w-10 h-6 rounded-full shadow-inner bg-gray-300 peer-checked:bg-gray-900"
                             ></div>
                             <div
-                              onClick={DarkLightModeHandler}
-                              className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto bg-white peer-checked:bg-gray-100"
+                              className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full bg-white peer-checked:right-0 peer-checked:left-auto"
                             ></div>
                           </span>
                         </label>

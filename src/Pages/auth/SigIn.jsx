@@ -7,6 +7,7 @@ import {
   signInSuccess,
 } from "../../Redux/userSlice";
 import GoogleAuth from "./GoogleAuth";
+import { ToastContainer } from "react-toastify";
 export default function SigIn() {
   const [email, setemail] = useState(null);
   const [password, setpassword] = useState(null);
@@ -15,6 +16,7 @@ export default function SigIn() {
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  // @ts-ignore
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const HandleLogin = async (eo) => {
@@ -53,98 +55,104 @@ export default function SigIn() {
   }, [errorMessage]);
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center mx-auto max-w-lg   p-12 space-y-4 text-center dark:bg-gray-50 dark:text-gray-800">
-      <h1 className="text-3xl font-semibold mb-1">Sign in to your account</h1>
-
-      <form onSubmit={HandleLogin} className="space-y-4">
-        <div className="flex flex-col gap-6">
-          <label htmlFor="email" className="sr-only">
-            Email address
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Email address"
-            className="w-full px-4 py-3 rounded-md outline-none text-black"
-            onChange={(eo) => {
-              let value = eo.target.value;
-              setemail(value.toLowerCase());
-            }}
-            defaultValue={email}
-          />
-          <label htmlFor="password" className="sr-only">
-            Password
-          </label>
-          <input
-            id="password"
-            type="text"
-            placeholder="Password"
-            className="w-full px-4 py-3 rounded-md outline-none text-black"
-            onChange={(eo) => {
-              let value = eo.target.value;
-              setpassword(value.toLowerCase());
-            }}
-            defaultValue={password}
-          />
-        </div>
-        <div className="flex justify-between">
-          <a className="text-sm dark:text-gray-600" href="/ForgotPW">
-            Forgot your password?
-          </a>
-          <div>
-            {errorMessage ? (
-              <p className="text-red-500 text-sm">{errorMessage}</p>
-            ) : null}
-          </div>
-        </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className="px-8 py-3 space-x-2 transition-colors duration-300 ease-in-out hover:bg-teal-800 font-semibold rounded bg-teal-700 text-white"
-        >
-          {loading ? "Loading..." : "Sign in"}
-        </button>
-        <GoogleAuth />
-      </form>
-
-      {/* Social Login */}
-      {/* <div className="flex items-center pt-4 space-x-1">
-        <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
-        <p className="px-3 text-sm dark:text-gray-600">
-          Login with social accounts
+    <div className="min-h-screen flex items-center justify-center  ">
+      <div className="bg-white w-full max-w-md p-10 rounded-lg shadow-xl">
+        {/* Header */}
+        <h1 className="text-2xl font-bold text-gray-800 text-center mb-4">
+          Welcome Back!
+        </h1>
+        <p className="text-sm text-gray-500 text-center mb-8">
+          Sign in to access your account
         </p>
-        <div className="flex-1 h-px sm:w-16 dark:bg-gray-300"></div>
+
+        {/* Form */}
+        <form onSubmit={HandleLogin} className="space-y-6">
+          {/* Email Field */}
+          <div className="space-y-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              defaultValue={email}
+              onChange={(e) => setemail(e.target.value.toLowerCase())}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 text-[--input-text-color] focus:ring-2 focus:ring-teal-400 focus:outline-none"
+              required
+            />
+          </div>
+
+          {/* Password Field */}
+          <div className="space-y-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-600"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              defaultValue={password}
+              onChange={(e) => setpassword(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 text-[--input-text-color] focus:ring-2 focus:ring-teal-400 focus:outline-none"
+              required
+            />
+          </div>
+
+          {/* Forgot Password */}
+          <div className="flex justify-between text-sm text-gray-500">
+            <a href="/ForgotPW" className="hover:underline">
+              Forgot your password?
+            </a>
+          </div>
+
+          {/* Error Message */}
+          {errorMessage && (
+            <div className="mt-2 text-sm text-red-500 text-center">
+              {errorMessage}
+            </div>
+          )}
+
+          {/* Sign In Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 bg-teal-600 text-white rounded-lg font-semibold transition duration-300 ease-in-out hover:bg-teal-700 focus:ring-4 focus:ring-teal-300 focus:outline-none"
+          >
+            {loading ? "Signing in..." : "Sign In"}
+          </button>
+        </form>
+
+        {/* Divider */}
+        <div className="flex items-center my-6 w-full text-center justify-center">
+          <span className="w-1/3 h-[1px] bg-gray-300"></span>
+          <span className="text-sm text-gray-500 mx-2">OR</span>
+          <span className="w-1/3 h-[1px] bg-gray-300"></span>
+        </div>
+
+        <GoogleAuth />
+
+        {/* Footer */}
+        <p className="text-sm text-center text-gray-500 mt-6">
+          Don't have an account?{" "}
+          <a
+            href="/auth/register"
+            className="text-teal-600 font-medium hover:underline"
+          >
+            Sign Up
+          </a>
+        </p>
       </div>
-      <div className="flex justify-center space-x-4">
-        <button
-          aria-label="Log in with Google"
-          className="p-2 rounded-full bg-teal-600 transition-colors duration-300 ease-in-out hover:bg-teal-800"
-        >
-          <IoLogoGoogle color="white" size={24} />
-        </button>
-        <button
-          aria-label="Log in with Facebook"
-          className="p-2 rounded-full bg-teal-600 transition-colors duration-300 ease-in-out hover:bg-teal-800"
-        >
-          <IoLogoFacebook color="white" size={24} />
-        </button>
-        <button
-          aria-label="Log in with GitHub"
-          className="p-2 rounded-full bg-teal-600 transition-colors duration-300 ease-in-out hover:bg-teal-800"
-        >
-          <IoLogoGithub color="white" size={24} />
-        </button>
-      </div> */}
-      <p className="text-xs text-center sm:px-6 dark:text-gray-600">
-        Dont have an account?
-        <a
-          rel="noopener noreferrer"
-          href="/auth/register"
-          className="underline dark:text-gray-800"
-        >
-          Sign up
-        </a>
-      </p>
+
+      <ToastContainer />
     </div>
   );
 }
