@@ -12,12 +12,13 @@ import {
   updateStart,
   updateSuccess,
 } from "../../Redux/userSlice";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function ProfileUpdate() {
   // @ts-ignore
   const {
     currentUser,
-    loading,
+
     error: userError,
     // @ts-ignore
   } = useSelector((state) => state.user);
@@ -31,9 +32,9 @@ export default function ProfileUpdate() {
   const [formData, setFormData] = useState({});
   const [UpdateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
+  const [loading, setloading] = useState(false);
   // @ts-ignore
   const apiUrl = import.meta.env.VITE_API_URL;
-
   const dispatch = useDispatch();
   // When the user clicks on the image it will open the file explorer to select an image from their device and store it in the state
   const ImagePicker = (eo) => {
@@ -117,15 +118,19 @@ export default function ProfileUpdate() {
   // This function handles the submission of the form
   const handleSubmit = async (eo) => {
     eo.preventDefault();
+    setloading(true);
     // Send a POST request to the server to update the user's profile
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
 
     if (Object.keys(formData).length === 0) {
+      setUpdateUserError("Please fill all the fields");
+      setloading(false);
       return;
     }
     if (imageFileUploading) {
       setUpdateUserError("Please wait for image to upload");
+      setloading(false);
       return;
     }
 
@@ -136,26 +141,36 @@ export default function ProfileUpdate() {
         `${apiUrl}/api/update/${currentUser._id || currentUser.user._id}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify(formData),
           credentials: "include",
         }
       );
       const data = await res.json();
-
+      console.log(data);
       if (!res.ok) {
         dispatch(updateFailure(data.message));
-        seterror(data);
+        toast.error(data.message);
+        setloading(false);
       } else {
         dispatch(updateSuccess(data));
         setUpdateUserSuccess(data.message);
+        toast.success("Profile updated successfully");
+        setloading(false);
       }
     } catch (error) {
       dispatch(updateFailure(error.message));
+      toast.error(error.message);
+      setloading(false);
+    } finally {
+      setloading(false);
     }
   };
   return (
     <div className="min-h-screen  flex flex-col items-center py-5 md:py-10">
+      <ToastContainer />
       {/* Profile Header */}
       <div className="w-full max-w-4xl p-6 bg-[--background-color] rounded-xl shadow-lg mb-8">
         <div className="flex items-center space-x-4">
@@ -189,10 +204,10 @@ export default function ProfileUpdate() {
             )}
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-[--text-color]">
+            <h1 className="text-2xl capitalize font-bold text-[--text-color]">
               {currentUser?.name || currentUser?.user?.name}
             </h1>
-            <p className=" text-[--text-color] text-sm">
+            <p className=" text-[--text-color] capitalize text-sm">
               {currentUser?.email || currentUser?.user?.email}
             </p>
             <p className=" text-[--text-color] italic mt-1">
@@ -251,70 +266,12 @@ export default function ProfileUpdate() {
             <button
               type="submit"
               disabled={loading || imageFileUploading}
-              className="w-full bg-indigo-500  text-[--text-color] py-3 rounded-lg hover:bg-indigo-600 focus:ring-2 focus:ring-indigo-400"
+              className="w-full bg-indigo-500  text-white py-3 rounded-lg hover:bg-indigo-600 focus:ring-2 focus:ring-indigo-400"
             >
               {loading ? "Updating..." : "Update Information"}
             </button>
           </form>
         </div>
-
-        {/* Account Settings Section */}
-        <div className="p-6 bg-[--background-color] rounded-xl shadow-md">
-          <h2 className="text-xl font-bold  text-[--text-color] mb-4">Settings</h2>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <p className=" text-[--text-color]">Enable Notifications</p>
-              <label className="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  className="form-checkbox text-indigo-600"
-                />
-                <span className="ml-2  text-[--text-color]">On</span>
-              </label>
-            </div>
-            <div className="flex items-center justify-between">
-              <p className=" text-[--text-color]">Make Profile Public</p>
-              <label className="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  className="form-checkbox text-indigo-600"
-                />
-                <span className="ml-2  text-[--text-color]">Yes</span>
-              </label>
-            </div>
-            <div className="flex items-center justify-between">
-              <p className=" text-[--text-color]">Email Updates</p>
-              <label className="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  className="form-checkbox text-indigo-600"
-                />
-                <span className="ml-2  text-[--text-color]">Subscribe</span>
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Recent Activity Section */}
-      <div className="w-full max-w-4xl mt-8 p-6 bg-[--background-color] rounded-xl shadow-md">
-        <h2 className="text-xl font-bold  text-[--text-color] mb-4">
-          Recent Activity
-        </h2>
-        <ul className="space-y-4">
-          <li className="flex items-center justify-between text-sm">
-            <p>Updated profile picture</p>
-            <span className=" text-[--text-color]">2 hours ago</span>
-          </li>
-          <li className="flex items-center justify-between text-sm">
-            <p>Changed email address</p>
-            <span className=" text-[--text-color]">Yesterday</span>
-          </li>
-          <li className="flex items-center justify-between text-sm">
-            <p>Subscribed to notifications</p>
-            <span className=" text-[--text-color]">Last week</span>
-          </li>
-        </ul>
       </div>
     </div>
   );

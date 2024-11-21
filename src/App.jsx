@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../src/components/Header";
 import { Outlet } from "react-router-dom";
 import DrawerForMobiles from "./components/Drawers/DrawerForMobiles";
@@ -11,6 +11,32 @@ function App() {
   const [DarkLightMode, setDarkLightMode] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
   );
+
+  // @ts-ignore
+  const ApiURL= import.meta.env.VITE_API_URL
+
+  const refreshToken = async () => {
+    try {
+      const res = await fetch(`${ApiURL}/api/refreshToken`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (err) {
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        window.location.href = "/auth/login";
+      }
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refreshToken(); // Refresh token every 59 minutes
+    }, 55 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
   return (
     <div className="min-h-screen relative text-[--text-color] ">
       {DarkLightMode !== "light" ? (

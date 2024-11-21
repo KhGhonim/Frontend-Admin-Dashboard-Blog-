@@ -56,7 +56,7 @@ export default function Search() {
         </p>
         <form
           onSubmit={SearchHandler}
-          className="w-full max-w-4xl p-6 rounded-lg shadow-lg flex items-center space-x-4"
+          className="w-full max-w-4xl p-6 rounded-lg shadow-lg flex flex-col gap-3 md:flex-row items-center space-x-4"
         >
           <select
             onChange={(eo) => setselectedOption(eo.target.value)}
@@ -69,6 +69,7 @@ export default function Search() {
             <option value="users">Users</option>
           </select>
 
+          <div className="flex items-center w-full gap-2">
           <input
             onChange={(eo) => setSearch(eo.target.value)}
             type="text"
@@ -82,13 +83,14 @@ export default function Search() {
           >
             <CgSearchFound className="w-6 h-6" />
           </button>
+          </div>
         </form>
       </header>
 
       <main className="w-full max-w-4xl">
         {selectedOption === null ? (
           <div className="flex justify-center items-center py-12">
-            <p className="text-lg text-gray-500">Please select an option to search</p>
+            <p className="text-lg text-red-500">Please select an option to search</p>
           </div>
         ) : selectedOption === "users" ? (
           <section>

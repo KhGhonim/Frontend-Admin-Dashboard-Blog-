@@ -1,50 +1,17 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  signInFailure,
-  signInStart,
-  signInSuccess,
-} from "../../Redux/userSlice";
+import { signInFailure } from "../../Redux/userSlice";
 import GoogleAuth from "./GoogleAuth";
 import { ToastContainer } from "react-toastify";
+import useHandleLogin from "../../Hooks/HandleLogin/useHandleLogin";
+
 export default function SigIn() {
-  const [email, setemail] = useState(null);
-  const [password, setpassword] = useState(null);
-  const nevigate = useNavigate();
+  const { setemail, setpassword, HandleLogin, email, password, loading } =
+    useHandleLogin();
+
   // @ts-ignore
-  const { loading, error: errorMessage } = useSelector((state) => state.user);
+  const { error: errorMessage } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
-  // @ts-ignore
-  const apiUrl = import.meta.env.VITE_API_URL;
-
-  const HandleLogin = async (eo) => {
-    eo.preventDefault();
-    dispatch(signInStart());
-
-    const res = await fetch(`${apiUrl}/api/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-    const data = await res.json();
-
-    if (!res.ok) {
-      dispatch(signInFailure(data.message));
-    } else {
-      dispatch(signInSuccess(data));
-      nevigate("/");
-    }
-
-    eo.target.reset();
-  };
 
   useEffect(() => {
     setTimeout(() => {
