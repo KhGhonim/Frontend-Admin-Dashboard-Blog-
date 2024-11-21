@@ -86,6 +86,7 @@ export default function Search() {
           </div>
         </form>
       </header>
+      
 
       <main className="w-full max-w-4xl">
         {selectedOption === null ? (
