@@ -19,7 +19,6 @@ export default function Search() {
     }
   }, [Search]);
 
-  console.log(Data)
 
   const SearchHandler = async (eo) => {
     eo.preventDefault();
@@ -86,7 +85,7 @@ export default function Search() {
           </div>
         </form>
       </header>
-      
+
 
       <main className="w-full max-w-4xl">
         {selectedOption === null ? (

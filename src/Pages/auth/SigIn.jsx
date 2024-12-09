@@ -22,20 +22,20 @@ export default function SigIn() {
   }, [errorMessage]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center  ">
-      <div className="bg-white w-full max-w-md p-10 rounded-lg shadow-xl">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="bg-white w-full max-w-md p-8 rounded-lg shadow-lg">
         {/* Header */}
-        <h1 className="text-2xl font-bold text-gray-800 text-center mb-4">
+        <h1 className="text-3xl font-bold text-gray-800 text-center mb-2">
           Welcome Back!
         </h1>
-        <p className="text-sm text-gray-500 text-center mb-8">
+        <p className="text-sm text-gray-500 text-center mb-6">
           Sign in to access your account
         </p>
 
         {/* Form */}
-        <form onSubmit={HandleLogin} className="space-y-6">
+        <form onSubmit={HandleLogin} className="space-y-5">
           {/* Email Field */}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <label
               htmlFor="email"
               className="block text-sm font-medium text-gray-600"
@@ -49,13 +49,13 @@ export default function SigIn() {
               placeholder="Enter your email"
               defaultValue={email}
               onChange={(e) => setemail(e.target.value.toLowerCase())}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 text-[--input-text-color] focus:ring-2 focus:ring-teal-400 focus:outline-none"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-800 focus:ring-2 focus:ring-teal-500 focus:outline-none"
               required
             />
           </div>
 
           {/* Password Field */}
-          <div className="space-y-2">
+          <div className="space-y-1">
             <label
               htmlFor="password"
               className="block text-sm font-medium text-gray-600"
@@ -69,21 +69,33 @@ export default function SigIn() {
               placeholder="Enter your password"
               defaultValue={password}
               onChange={(e) => setpassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 text-[--input-text-color] focus:ring-2 focus:ring-teal-400 focus:outline-none"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-800 focus:ring-2 focus:ring-teal-500 focus:outline-none"
               required
             />
           </div>
 
+          {/* Admin Hint */}
+          <div className="bg-blue-50 border-l-4 border-blue-400 text-blue-700 p-4 rounded mb-6">
+            <p className="text-xs font-semibold text-red-800">
+              Want to join as admin? <br />
+              <span className="font-semibold">ID:</span> admin@admin.com <br />
+              <span className="font-semibold">PW:</span> 123456
+            </p>
+          </div>
+
           {/* Forgot Password */}
-          <div className="flex justify-between text-sm text-gray-500">
-            <a href="/ForgotPW" className="hover:underline">
+          <div className="text-sm text-right">
+            <a
+              href="/ForgotPW"
+              className="text-teal-600 hover:underline focus:outline-none"
+            >
               Forgot your password?
             </a>
           </div>
 
           {/* Error Message */}
           {errorMessage && (
-            <div className="mt-2 text-sm text-red-500 text-center">
+            <div className="text-sm text-red-500 text-center">
               {errorMessage}
             </div>
           )}
@@ -92,19 +104,20 @@ export default function SigIn() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-teal-600 text-white rounded-lg font-semibold transition duration-300 ease-in-out hover:bg-teal-700 focus:ring-4 focus:ring-teal-300 focus:outline-none"
+            className="w-full py-3 bg-teal-600 text-white rounded-lg font-semibold transition hover:bg-teal-700 focus:ring-4 focus:ring-teal-300 focus:outline-none"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
 
         {/* Divider */}
-        <div className="flex items-center my-6 w-full text-center justify-center">
-          <span className="w-1/3 h-[1px] bg-gray-300"></span>
-          <span className="text-sm text-gray-500 mx-2">OR</span>
-          <span className="w-1/3 h-[1px] bg-gray-300"></span>
+        <div className="flex items-center my-6">
+          <span className="flex-1 h-[1px] bg-gray-300"></span>
+          <span className="mx-2 text-sm text-gray-500">OR</span>
+          <span className="flex-1 h-[1px] bg-gray-300"></span>
         </div>
 
+        {/* Google Auth */}
         <GoogleAuth />
 
         {/* Footer */}
@@ -112,13 +125,12 @@ export default function SigIn() {
           Don't have an account?{" "}
           <a
             href="/auth/register"
-            className="text-teal-600 font-medium hover:underline"
+            className="text-teal-600 font-medium hover:underline focus:outline-none"
           >
             Sign Up
           </a>
         </p>
       </div>
-
       <ToastContainer />
     </div>
   );
